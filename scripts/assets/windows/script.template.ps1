@@ -1,3 +1,0 @@
-. "../header.txt"
-
-. "../footer.txt"

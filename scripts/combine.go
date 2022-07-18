@@ -8,12 +8,12 @@ import (
 
 // CombineLinuxScripts combines all Linux scripts into one.
 func CombineLinuxScripts() (string, error) {
-	return CombineBash("assets/linux/script.template.sh")
+	return CombineBash("assets/linux/script.sh")
 }
 
 // CombineWindowsScripts combines all Windows scripts into one.
 func CombineWindowsScripts() (string, error) {
-	return CombinePowerShell("assets/windows/script.template.ps1")
+	return CombinePowerShell("assets/windows/script.ps1")
 }
 
 // CombineBash combines multiple Bash files into one.

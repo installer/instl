@@ -1,9 +1,18 @@
 package main
 
 import (
+	"flag"
+	"fmt"
+	"os"
+	"runtime"
+	"time"
+
 	"github.com/gofiber/contrib/fiberzap"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/installer/installer/internal/pkg/config"
+	"github.com/installer/installer/internal/pkg/platforms"
+	"github.com/installer/installer/scripts"
 	"github.com/pterm/pterm"
 	"github.com/pterm/pterm/putils"
 	"go.uber.org/zap"
@@ -12,6 +21,23 @@ import (
 )
 
 func main() {
+	test := flag.Bool("test", false, "test")
+	flag.Parse()
+	// Check if test flag is set
+	if *test {
+		platform, err := platforms.Parse(runtime.GOOS)
+		pterm.Fatal.PrintOnError(err)
+		script, err := scripts.ParseTemplateForPlatform(platform, config.Config{
+			Owner:     "installer",
+			Repo:      "test-repo",
+			Version:   "latest",
+			CreatedAt: time.Now(),
+		})
+		pterm.Fatal.PrintOnError(err)
+		fmt.Println(script)
+		os.Exit(0)
+	}
+
 	pterm.DefaultBigText.WithLetters(putils.LettersFromString("  INSTL")).Render()
 
 	logger, _ := zap.NewProduction(zap.WithCaller(false))

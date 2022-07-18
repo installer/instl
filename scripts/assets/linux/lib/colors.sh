@@ -107,10 +107,6 @@ bWhite () {
 
 # Special Colors
 
-bold () {
-    printf "\e[1m%s\e[0m" "$1"
-}
-
 resetColor () {
     printf "\e[0m"
 }

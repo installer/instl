@@ -1,5 +1,6 @@
 source ../header.txt
 
+# Setup variables
 owner="{{ .Owner }}"
 repo="{{ .Repo }}"
 github_url="https://github.com/$owner/$repo"
