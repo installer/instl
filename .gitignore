@@ -5,3 +5,6 @@
 # Compiled binaries
 installer
 installer.exe
+
+# Temporary files
+tmp
