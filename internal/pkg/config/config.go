@@ -10,14 +10,26 @@ type Config struct {
 	Verbose   bool
 }
 
+// Combine merges two configs together.
+// If a field is set in both configs, the value from the second config will be used.
 func Combine(configs ...Config) Config {
-	var config Config
+	var cfg Config
 	for _, c := range configs {
-		config.Owner = c.Owner
-		config.Repo = c.Repo
-		config.Version = c.Version
-		config.CreatedAt = c.CreatedAt
-		config.Verbose = c.Verbose
+		if c.Owner != "" {
+			cfg.Owner = c.Owner
+		}
+		if c.Repo != "" {
+			cfg.Repo = c.Repo
+		}
+		if c.Version != "" {
+			cfg.Version = c.Version
+		}
+		if c.CreatedAt != (time.Time{}) {
+			cfg.CreatedAt = c.CreatedAt
+		}
+		if c.Verbose {
+			cfg.Verbose = true
+		}
 	}
-	return config
+	return cfg
 }
