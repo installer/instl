@@ -134,7 +134,7 @@ error() {
 }
 
 success() {
-  fGreenLight " ✓ " && resetColor && fGreen "$1" && echo
+  fGreenLight " + " && resetColor && fGreen "$1" && echo
 }
 
 verbose() {
