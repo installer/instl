@@ -87,6 +87,10 @@ foreach ($asset in $assets)
     {
         continue
     }
+    if ( $asset.ToLower().EndsWith(".sbom"))
+    {
+        continue
+    }
     $assetMap[$asset] = 0
     # Loop through windows aliases
     $windows | %{
@@ -97,6 +101,13 @@ foreach ($asset in $assets)
             verbose "Asset $asset contains windows alias $windowsAlias"
             $assetMap[$asset] = $assetMap[$asset] + 1
         }
+    }
+
+    # Add a score point, if the asset is a zip file
+    if ($asset.ToLower().EndsWith(".zip"))
+    {
+        verbose "Asset $asset is a zip file"
+        $assetMap[$asset] = $assetMap[$asset] + 1
     }
 
     # Loop through architecture aliases
@@ -144,6 +155,10 @@ if ( $assetName.EndsWith(".zip"))
     verbose "Extracting asset..."
     Expand-Archive -Path $assetPath -Destination $installLocation\
     verbose "Asset extracted to $extractDir"
+}
+else
+{
+    error "Asset is not a zip file"
 }
 
 # Find binary file in install path
