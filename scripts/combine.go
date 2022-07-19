@@ -57,5 +57,7 @@ func CombineFile(filePath, pattern string) (string, error) {
 		}
 	}
 
-	return strings.Join(lines, "\n"), nil
+	joined := strings.Join(lines, "\n")
+
+	return strings.ReplaceAll(joined, "\r\n", "\n"), nil
 }
