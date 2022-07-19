@@ -330,8 +330,8 @@ function verbose
     )
     if ($verbose)
     {
-        fYellowLight " > "
-        fYellow $Msg
+        fGrayLight " > "
+        fGray $Msg
         echo ""
     }
 }

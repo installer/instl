@@ -164,6 +164,6 @@ success() {
 
 verbose() {
   if [ $verbose == true ]; then
-    fYellowLight " > " && resetColor && fYellow "$1" && echo
+    fGrayLight " > " && resetColor && fGray "$1" && echo
   fi
 }
