@@ -52,6 +52,18 @@ fWhite() {
   printf "\e[37m%s\e[0m" "$1"
 }
 
+fBlack() {
+  printf "\e[30m%s\e[0m" "$1"
+}
+
+fGray() {
+  printf "\e[90m%s\e[0m" "$1"
+}
+
+fGrayLight() {
+  printf "\e[37m%s\e[0m" "$1"
+}
+
 ## Background Colors
 bRed() {
   printf "\e[41m%s\e[0m" "$1"
@@ -104,6 +116,19 @@ bCyanLight() {
 bWhite() {
   printf "\e[47m%s\e[0m" "$1"
 }
+
+bBlack() {
+  printf "\e[40m%s\e[0m" "$1"
+}
+
+bGray() {
+  printf "\e[100m%s\e[0m" "$1"
+}
+
+bGrayLight() {
+  printf "\e[37m%s\e[0m" "$1"
+}
+
 
 # Special Colors
 

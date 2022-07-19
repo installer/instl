@@ -104,6 +104,30 @@ function fWhite
     Write-Host $Msg -NoNewline -ForegroundColor White
 }
 
+function fBlack
+{
+    param (
+        $Msg
+    )
+    Write-Host $Msg -NoNewline -ForegroundColor Black
+}
+
+function fGray
+{
+    param (
+        $Msg
+    )
+    Write-Host $Msg -NoNewline -ForegroundColor DarkGray
+}
+
+function fGrayLight
+{
+    param (
+        $Msg
+    )
+    Write-Host $Msg -NoNewline -ForegroundColor Gray
+}
+
 # Background Colors
 
 function bRed
@@ -208,6 +232,30 @@ function bWhite
         $Msg
     )
     Write-Host $Msg -NoNewline -BackgroundColor White
+}
+
+function bBlack
+{
+    param (
+        $Msg
+    )
+    Write-Host $Msg -NoNewline -BackgroundColor Black
+}
+
+function bGray
+{
+    param (
+        $Msg
+    )
+    Write-Host $Msg -NoNewline -BackgroundColor DarkGray
+}
+
+function bGrayLight
+{
+    param (
+        $Msg
+    )
+    Write-Host $Msg -NoNewline -BackgroundColor Gray
 }
 
 # Special Colors
