@@ -37,11 +37,11 @@
 # To use this installer script, run the following command:
 #
 # Linux:
-# curl -Ss https://instl.sh/{{ .Owner }}/{{ .Repo }}/linux | bash
+# curl -sSL instl.sh/{{ .Owner }}/{{ .Repo }}/linux | bash
 #
 # MacOS:
-# curl -Ss https://instl.sh/{{ .Owner }}/{{ .Repo }}/macos | bash
+# curl -sSL instl.sh/{{ .Owner }}/{{ .Repo }}/macos | bash
 #
 # Windows:
-# iwr https://instl.sh/{{ .Owner }}/{{ .Repo }}/windows | iex
+# iwr instl.sh/{{ .Owner }}/{{ .Repo }}/windows | iex
 
