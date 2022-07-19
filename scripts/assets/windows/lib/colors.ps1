@@ -219,21 +219,24 @@ function resetColor
 
 # Theme
 
-function primaryColor {
+function primaryColor
+{
     param (
         $Msg
     )
     fCyan $Msg
 }
 
-function secondaryColor {
+function secondaryColor
+{
     param (
         $Msg
     )
     fMagentaLight $Msg
 }
 
-function info {
+function info
+{
     param (
         $Msg
     )
@@ -242,12 +245,46 @@ function info {
     echo ""
 }
 
-function error {
+function warning
+{
+    param (
+        $Msg
+    )
+    fYellowLight " ! "
+    fYellow $Msg
+    echo ""
+}
+
+function error
+{
     param (
         $Msg
     )
     fRedLight " X "
     fRed $Msg
     echo ""
+}
+
+function success
+{
+    param (
+        $Msg
+    )
+    fGreenLight " + "
+    fGreen $Msg
+    echo ""
+}
+
+function verbose
+{
+    param (
+        $Msg
+    )
+    if ($verbose)
+    {
+        fYellowLight " > "
+        fYellow $Msg
+        echo ""
+    }
 }
 
