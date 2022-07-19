@@ -149,7 +149,7 @@ if ( $assetName.EndsWith(".zip"))
 $binaryFile = (Get-ChildItem -Path $installLocation -Filter "*.exe")[0]
 $binaryFile = $installLocation + "\" + $binaryFile
 $binaryName = $binaryFile.Split('\')[-1]
-$command = $binaryFile.Split('.')[0]
+$command = $binaryName.Split('.')[0]
 verbose "Binary file: $binaryFile"
 
 # Change PATH to include install location
