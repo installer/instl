@@ -137,6 +137,7 @@ $assetPath = "$tmpDir\$assetName"
 Invoke-Expression "Invoke-WebRequest -Uri $assetURL -OutFile $assetPath"
 verbose "Asset downloaded to $assetPath"
 
+info "Installing $repo"
 # Extract asset if it is a zip file
 if ( $assetName.EndsWith(".zip"))
 {
