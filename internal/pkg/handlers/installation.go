@@ -1,14 +1,25 @@
 package handlers
 
 import (
+	"strconv"
 	"time"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/pterm/pterm"
+	"go.etcd.io/bbolt"
 
 	"github.com/installer/installer/internal/pkg/config"
 	"github.com/installer/installer/internal/pkg/platforms"
 	"github.com/installer/installer/scripts"
 )
+
+var db *bbolt.DB
+
+func init() {
+	dbTmp, err := bbolt.Open("./metrics.db", 0666, nil)
+	pterm.Fatal.PrintOnError(err)
+	db = dbTmp
+}
 
 func installationWithConfig(cfg config.Config) func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
@@ -32,7 +43,32 @@ func installationWithConfig(cfg config.Config) func(c *fiber.Ctx) error {
 			return err
 		}
 
-		return c.SendString(script)
+		err = c.SendString(script)
+
+		key := owner + "/" + repo + "/" + platform.String()
+		if owner != "status-health-check" {
+			db.Update(func(tx *bbolt.Tx) error {
+				b, err := tx.CreateBucketIfNotExists([]byte("installations"))
+				if err != nil {
+					return err
+				}
+				var installCountString string
+				if v := b.Get([]byte(key)); v != nil {
+					installCountString = string(v)
+				}
+				var installCount int
+				if installCountString != "" {
+					installCount, err = strconv.Atoi(installCountString)
+					if err != nil {
+						return err
+					}
+				}
+				installCount++
+				return b.Put([]byte(key), []byte(strconv.Itoa(installCount)))
+			})
+		}
+
+		return err
 	}
 }
 

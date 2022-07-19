@@ -58,6 +58,10 @@ func main() {
 	}))
 
 	app.Get("/", handlers.RedirectToDocs)
+	app.Get("/stats", handlers.AllStats)
+	app.Get("/stats/total", handlers.AllStatsTotal)
+	app.Get("/stats/total/badge", handlers.AllStatsTotalBadge)
+	app.Get("/stats/:user/:repo", handlers.Stats)
 	app.Get("/:user/:repo", handlers.MissingPlatform)
 	app.Get("/:user/:repo/:os", handlers.Installation)
 	app.Get("/:user/:repo/:os/verbose", handlers.InstallationVerbose)

@@ -12,3 +12,6 @@ tmp
 # Test run scripts
 test.ps1
 test.sh
+
+# Metrics Database
+metrics.db
