@@ -1,5 +1,5 @@
 <h1 align="center">GitHub Project Installer | INSTL</h1>
-<p align="center">Instl is an installer that can install most GitHub projects on your system with a single command.</p>
+<p align="center">Instl is a install script generator that can handle most GitHub projects with a single command!</p>
 
 <p align="center">
 
