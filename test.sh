@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-go run . -test | bash
+go run . -test -verbose | bash
