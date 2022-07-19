@@ -23,17 +23,20 @@ import (
 
 func main() {
 	test := flag.Bool("test", false, "test")
+	verbose := flag.Bool("verbose", false, "verbose output")
+	owner := flag.String("owner", "installer", "test repo owner")
+	repo := flag.String("repo", "test-repo", "test repo name")
 	flag.Parse()
 	// Check if test flag is set
 	if *test {
 		platform, err := platforms.Parse(runtime.GOOS)
 		pterm.Fatal.PrintOnError(err)
 		script, err := scripts.ParseTemplateForPlatform(platform, config.Config{
-			Owner:     "installer",
-			Repo:      "test-repo",
+			Owner:     *owner,
+			Repo:      *repo,
 			Version:   "latest",
 			CreatedAt: time.Now(),
-			Verbose:   true,
+			Verbose:   *verbose,
 		})
 		pterm.Fatal.PrintOnError(err)
 		fmt.Println(script)
@@ -55,6 +58,7 @@ func main() {
 
 	app.Get("/", handlers.RedirectToDocs)
 	app.Get("/:user/:repo/:os", handlers.Installation)
+	app.Get("/:user/:repo/:os/verbose", handlers.InstallationVerbose)
 
 	pterm.Fatal.PrintOnError(app.Listen(":80"))
 }
