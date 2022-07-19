@@ -10,7 +10,7 @@ install_location=""
 source ./lib/colors.sh
 
 # Print "INSTL" header
-source ./lib/intro.sh
+source ../shared/intro.ps1
 
 # Installation
 

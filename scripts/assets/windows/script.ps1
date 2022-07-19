@@ -10,7 +10,7 @@ $install_location=""
 . "./lib/colors.ps1"
 
 # Print "INSTL" header
-. "./lib/intro.ps1"
+. "../shared/intro.ps1"
 
 # Installation
 
