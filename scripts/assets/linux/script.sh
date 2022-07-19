@@ -193,7 +193,7 @@ verbose "Binary name: $binaryName"
 
 # Remove previous symlink if it exists
 verbose "Removing previous symlink"
-rm "$binaryLocation/$repo" || true
+rm "$binaryLocation/$repo" > /dev/null || true
 # Create symlink to binary
 verbose "Creating symlink '$binaryLocation/$binaryName' -> '$binary'"
 ln -s "$binary" "$binaryLocation/$binaryName"
