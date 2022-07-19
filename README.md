@@ -3,6 +3,12 @@
 
 <p align="center">
 
+<a style="text-decoration: none" href="https://instl.sh/stats">
+<img src="https://img.shields.io/endpoint?url=https://instl.sh/stats/total/badge&style=for-the-badge" alt="Handeld Installations">
+</a>
+
+<br>
+
 <a style="text-decoration: none" href="https://github.com/installer/installer/releases">
 <img src="https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-informational?style=for-the-badge" alt="Downloads">
 </a>
