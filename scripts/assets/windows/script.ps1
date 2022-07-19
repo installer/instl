@@ -103,13 +103,6 @@ foreach ($asset in $assets)
         }
     }
 
-    # Add a score point, if the asset is a zip file
-    if ($asset.ToLower().EndsWith(".zip"))
-    {
-        verbose "Asset $asset is a zip file"
-        $assetMap[$asset] = $assetMap[$asset] + 1
-    }
-
     # Loop through architecture aliases
     $currentArchAliases | %{
         $archAlias = $_
@@ -156,9 +149,21 @@ if ( $assetName.EndsWith(".zip"))
     Expand-Archive -Path $assetPath -Destination $installLocation\
     verbose "Asset extracted to $extractDir"
 }
+elseif ( $assetName.EndsWith(".tar.gz"))
+{
+    verbose "Extracting asset..."
+    tar -xzf $assetPath -C $installLocation
+    verbose "Asset extracted to $extractDir"
+}
+elseif ( $assetName.EndsWith(".tar"))
+{
+    verbose "Extracting asset..."
+    tar -xf $assetPath -C $installLocation
+    verbose "Asset extracted to $extractDir"
+}
 else
 {
-    error "Asset is not a zip file"
+    error "Asset is not a zip, tar or tar.gz file"
 }
 
 # Find binary file in install path
