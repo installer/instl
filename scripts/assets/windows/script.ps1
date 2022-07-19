@@ -149,6 +149,7 @@ if ( $assetName.EndsWith(".zip"))
 $binaryFile = (Get-ChildItem -Path $installLocation -Filter "*.exe")[0]
 $binaryFile = $installLocation + "\" + $binaryFile
 $binaryName = $binaryFile.Split('\')[-1]
+$command = $binaryFile.Split('.')[0]
 verbose "Binary file: $binaryFile"
 
 # Change PATH to include install location
@@ -170,7 +171,7 @@ if (test-path $tmpDir)
 }
 
 echo ""
-success "You can now run '$binaryName' in your terminal."
+success "You can now run '$command' in your terminal."
 info "You might have to restart your terminal session for the changes to take effect."
 
 . "../footer.txt"
