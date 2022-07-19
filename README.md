@@ -24,7 +24,7 @@
 </p>
 
 <p align="center">
-<img width="600" src="https://user-images.githubusercontent.com/31022056/179847018-5c6ac848-cc7a-4d1a-82a9-8fb30d59e928.png" alt="Instl Demo">
+<img width="600" src="https://user-images.githubusercontent.com/31022056/179850318-c764269d-2bf9-4966-96d0-03ad406cc2d2.png" alt="Instl Demo">
 </p>
 
 ----
