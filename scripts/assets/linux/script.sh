@@ -198,6 +198,16 @@ rm "$binaryLocation/$repo" || true
 verbose "Creating symlink '$binaryLocation/$binaryName' -> '$binary'"
 ln -s "$binary" "$binaryLocation/$binaryName"
 
+# Add binaryLocation to PATH, if it is not already in PATH
+if ! echo "$PATH" | grep -q "$binaryLocation"; then
+  verbose "Adding $binaryLocation to PATH"
+  # Append binaryLocation to .profile, if it is not already in .profile
+  if ! grep -q "export PATH=$binaryLocation:\$PATH" "$HOME/.profile"; then
+    verbose "Appending $binaryLocation to $HOME/.profile"
+    echo "export PATH=$binaryLocation:\$PATH" >> "$HOME/.profile"
+  fi
+fi
+
 info "Running clean up..."
 verbose "Removing temporary directory"
 rm -rf "$tmpDir"
