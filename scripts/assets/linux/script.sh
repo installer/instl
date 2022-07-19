@@ -204,7 +204,7 @@ if ! echo "$PATH" | grep -q "$binaryLocation"; then
   # Append binaryLocation to .profile, if it is not already in .profile
   if ! grep -q "export PATH=$binaryLocation:\$PATH" "$HOME/.profile"; then
     verbose "Appending $binaryLocation to $HOME/.profile"
-    echo "export PATH=$binaryLocation:\$PATH" >> "$HOME/.profile"
+    echo "export PATH=$binaryLocation:\$PATH" >>"$HOME/.profile"
   fi
 fi
 
