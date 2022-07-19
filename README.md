@@ -21,6 +21,10 @@
 <img src="https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square" alt="License: MIT">
 </a>
 
+<a style="text-decoration: none" href="https://hub.docker.com/r/marvinjwendt/instl">
+<img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/marvinjwendt/instl?style=flat-square">
+</a>
+
 </p>
 
 <p align="center">
