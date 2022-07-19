@@ -20,14 +20,14 @@ func installationWithConfig(cfg config.Config) func(c *fiber.Ctx) error {
 		}
 
 		script, err := scripts.ParseTemplateForPlatform(platform, config.Combine(
-			cfg,
 			config.Config{
 				Owner:     owner,
 				Repo:      repo,
 				CreatedAt: time.Now(),
 				Version:   "latest",
-			}),
-		)
+			},
+			cfg,
+		))
 		if err != nil {
 			return err
 		}
