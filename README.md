@@ -23,6 +23,10 @@
 
 </p>
 
+<p align="center">
+<img width="600" src="https://user-images.githubusercontent.com/31022056/179847018-5c6ac848-cc7a-4d1a-82a9-8fb30d59e928.png" alt="Instl Demo">
+</p>
+
 ----
 
 <p align="center">
