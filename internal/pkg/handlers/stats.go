@@ -87,7 +87,7 @@ func AllStatsTotalBadge(c *fiber.Ctx) error {
 
 		return c.JSON(map[string]any{
 			"schemaVersion": 1,
-			"label":         "handeld installations",
+			"label":         "handled installations",
 			"message":       strconv.Itoa(total),
 			"color":         "orange",
 		})
