@@ -124,3 +124,21 @@ secondaryColor () {
 info () {
    fBlueLight " i " && resetColor && fBlue "$1" && echo
 }
+
+warning () {
+   fYellowLight " ! " && resetColor && fYellow "$1" && echo
+}
+
+error () {
+    fRedLight " X " && resetColor && fRed "$1" && echo
+}
+
+success () {
+    fGreenLight " ✓ " && resetColor && fGreen "$1" && echo
+}
+
+verbose () {
+  if [ $verbose == true ]; then
+    fYellowLight " > " && resetColor && fYellow "$1" && echo
+  fi
+}

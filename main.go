@@ -10,12 +10,13 @@ import (
 	"github.com/gofiber/contrib/fiberzap"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/installer/installer/internal/pkg/config"
-	"github.com/installer/installer/internal/pkg/platforms"
-	"github.com/installer/installer/scripts"
 	"github.com/pterm/pterm"
 	"github.com/pterm/pterm/putils"
 	"go.uber.org/zap"
+
+	"github.com/installer/installer/internal/pkg/config"
+	"github.com/installer/installer/internal/pkg/platforms"
+	"github.com/installer/installer/scripts"
 
 	"github.com/installer/installer/internal/pkg/handlers"
 )
@@ -32,6 +33,7 @@ func main() {
 			Repo:      "test-repo",
 			Version:   "latest",
 			CreatedAt: time.Now(),
+			Verbose:   true,
 		})
 		pterm.Fatal.PrintOnError(err)
 		fmt.Println(script)

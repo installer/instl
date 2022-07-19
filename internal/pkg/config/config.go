@@ -7,4 +7,5 @@ type Config struct {
 	Repo      string
 	Version   string
 	CreatedAt time.Time
+	Verbose   bool
 }

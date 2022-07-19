@@ -242,3 +242,12 @@ function info {
     echo ""
 }
 
+function error {
+    param (
+        $Msg
+    )
+    fRedLight " X "
+    fRed $Msg
+    echo ""
+}
+
