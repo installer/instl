@@ -10,17 +10,27 @@ import (
 func Stats(c *fiber.Ctx) error {
 	user := c.Params("user")
 	repo := c.Params("repo")
-	key := user + "/" + repo
+	keyBase := user + "/" + repo + "/"
+	keyWindows := keyBase + "windows"
+	keyLinux := keyBase + "linux"
+	keyMacOS := keyBase + "macos"
 	return db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("installations"))
 		if b == nil {
 			return nil
 		}
-		v := b.Get([]byte(key))
-		if v == nil {
-			return nil
-		}
-		return c.SendString(string(v))
+		windowsInstallationsRaw := b.Get([]byte(keyWindows))
+		linuxInstallationsRaw := b.Get([]byte(keyLinux))
+		macosInstallationsRaw := b.Get([]byte(keyMacOS))
+
+		windowsInstallations, _ := strconv.Atoi(string(windowsInstallationsRaw))
+		linuxInstallations, _ := strconv.Atoi(string(linuxInstallationsRaw))
+		macosInstallations, _ := strconv.Atoi(string(macosInstallationsRaw))
+		return c.JSON(map[string]any{
+			"windows": windowsInstallations,
+			"linux":   linuxInstallations,
+			"macos":   macosInstallations,
+		})
 	})
 }
 
