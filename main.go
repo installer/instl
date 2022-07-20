@@ -9,6 +9,7 @@ import (
 
 	"github.com/gofiber/contrib/fiberzap"
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/pterm/pterm"
 	"github.com/pterm/pterm/putils"
@@ -53,6 +54,9 @@ func main() {
 		DisableStartupMessage: true,
 	})
 	app.Use(recover.New())
+	app.Use(cors.New(cors.Config{
+		AllowOrigins: "*",
+	}))
 	app.Use(fiberzap.New(fiberzap.Config{
 		Logger: logger,
 	}))
