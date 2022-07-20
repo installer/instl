@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"strconv"
-	"strings"
 
 	"github.com/gofiber/fiber/v2"
 	"go.etcd.io/bbolt"
@@ -31,15 +30,19 @@ func AllStats(c *fiber.Ctx) error {
 		if b == nil {
 			return nil
 		}
-		var lines []string
+		stats := map[string]int{}
 		err := b.ForEach(func(k, v []byte) error {
-			lines = append(lines, string(k)+": "+string(v))
+			i, err := strconv.Atoi(string(v))
+			if err != nil {
+				return err
+			}
+			stats[string(k)] = i
 			return nil
 		})
 		if err != nil {
 			return err
 		}
-		return c.SendString(strings.Join(lines, "\n"))
+		return c.JSON(stats)
 	})
 }
 
