@@ -23,8 +23,7 @@ func init() {
 
 func installationWithConfig(cfg config.Config) func(c *fiber.Ctx) error {
 	return func(c *fiber.Ctx) error {
-		owner := c.Params("user")
-		repo := c.Params("repo")
+		owner, repo := getOwnerAndRepo(c)
 		platform, err := platforms.Parse(c.Params("os"))
 		if err != nil {
 			return err
@@ -47,6 +46,7 @@ func installationWithConfig(cfg config.Config) func(c *fiber.Ctx) error {
 
 		key := owner + "/" + repo + "/" + platform.String()
 		if owner != "status-health-check" {
+			// Dont return error, user is not affected by errors that happen in stats collection
 			db.Update(func(tx *bbolt.Tx) error {
 				b, err := tx.CreateBucketIfNotExists([]byte("installations"))
 				if err != nil {

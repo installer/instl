@@ -8,9 +8,8 @@ import (
 )
 
 func RepoStatsAPI(c *fiber.Ctx) error {
-	user := c.Params("user")
-	repo := c.Params("repo")
-	linux, windows, macos, err := getInstallationCountPerPlatform(user, repo)
+	owner, repo := getOwnerAndRepo(c)
+	linux, windows, macos, err := getInstallationCountPerPlatform(owner, repo)
 	if err != nil {
 		return err
 	}
@@ -23,9 +22,8 @@ func RepoStatsAPI(c *fiber.Ctx) error {
 }
 
 func RepoStats(c *fiber.Ctx) error {
-	user := c.Params("user")
-	repo := c.Params("repo")
-	linux, windows, macos, err := getInstallationCountPerPlatform(user, repo)
+	owner, repo := getOwnerAndRepo(c)
+	linux, windows, macos, err := getInstallationCountPerPlatform(owner, repo)
 	if err != nil {
 		return err
 	}
@@ -34,15 +32,14 @@ func RepoStats(c *fiber.Ctx) error {
 		"Linux":   linux,
 		"MacOS":   macos,
 		"Total":   linux + windows + macos,
-		"Owner":   user,
+		"Owner":   owner,
 		"Repo":    repo,
 	})
 }
 
 func RepoStatsBadge(c *fiber.Ctx) error {
-	user := c.Params("user")
-	repo := c.Params("repo")
-	linux, windows, macos, err := getInstallationCountPerPlatform(user, repo)
+	owner, repo := getOwnerAndRepo(c)
+	linux, windows, macos, err := getInstallationCountPerPlatform(owner, repo)
 	if err != nil {
 		return err
 	}
