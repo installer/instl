@@ -8,7 +8,6 @@ RUN CGO_ENABLED=0 go build -o ./main
 FROM scratch
 WORKDIR /app
 COPY --from=builder /build/main ./main
-ADD ./scripts /scripts
-ADD ./html /html
+ADD ./html /app/html
 EXPOSE 80
 ENTRYPOINT ["./main"]
