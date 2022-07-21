@@ -30,6 +30,7 @@ func Stats(c *fiber.Ctx) error {
 			"windows": windowsInstallations,
 			"linux":   linuxInstallations,
 			"macos":   macosInstallations,
+			"total":   windowsInstallations + linuxInstallations + macosInstallations,
 		})
 	})
 }
