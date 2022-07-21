@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Instl | Installation Stats</title>
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@2.19.1/dist/full.css" rel="stylesheet" type="text/css"/>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<h1 class="text-4xl mt-12 text-center">Installation stats for {{ .Owner }}/{{ .Repo }}</h1>
+<div class="flex justify-center">
+    <div>
+        <div class="stats shadow mt-4">
+            <div class="stat">
+                <div class="stat-title">Total</div>
+                <div class="stat-value">{{ .Total }}</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Linux</div>
+                <div class="stat-value">{{ .Linux }}</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">macOS</div>
+                <div class="stat-value">{{ .MacOS }}</div>
+            </div>
+
+            <div class="stat">
+                <div class="stat-title">Windows</div>
+                <div class="stat-value">{{ .Windows }}</div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -7,7 +7,7 @@ import (
 	"go.etcd.io/bbolt"
 )
 
-func RepoStats(c *fiber.Ctx) error {
+func RepoStatsAPI(c *fiber.Ctx) error {
 	user := c.Params("user")
 	repo := c.Params("repo")
 	linux, windows, macos, err := getInstallationCountPerPlatform(user, repo)
@@ -19,6 +19,39 @@ func RepoStats(c *fiber.Ctx) error {
 		"linux":   linux,
 		"macos":   macos,
 		"total":   linux + windows + macos,
+	})
+}
+
+func RepoStats(c *fiber.Ctx) error {
+	user := c.Params("user")
+	repo := c.Params("repo")
+	linux, windows, macos, err := getInstallationCountPerPlatform(user, repo)
+	if err != nil {
+		return err
+	}
+	return c.Render("stats-repo", map[string]any{
+		"Windows": windows,
+		"Linux":   linux,
+		"MacOS":   macos,
+		"Total":   linux + windows + macos,
+		"Owner":   user,
+		"Repo":    repo,
+	})
+}
+
+func RepoStatsBadge(c *fiber.Ctx) error {
+	user := c.Params("user")
+	repo := c.Params("repo")
+	linux, windows, macos, err := getInstallationCountPerPlatform(user, repo)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(map[string]any{
+		"schemaVersion": 1,
+		"label":         "installations",
+		"message":       strconv.Itoa(linux + windows + macos),
+		"color":         "orange",
 	})
 }
 
@@ -51,7 +84,7 @@ func getInstallationCountPerPlatform(user, repo string) (linux, windows, macos i
 	return linux, windows, macos, nil
 }
 
-func AllStats(c *fiber.Ctx) error {
+func AllStatsAPI(c *fiber.Ctx) error {
 	return db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("installations"))
 		if b == nil {
@@ -73,7 +106,7 @@ func AllStats(c *fiber.Ctx) error {
 	})
 }
 
-func AllStatsTotal(c *fiber.Ctx) error {
+func AllStatsTotalAPI(c *fiber.Ctx) error {
 	return db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("installations"))
 		if b == nil {

@@ -4,7 +4,7 @@
 <p align="center">
 
 <a style="text-decoration: none" href="https://instl.sh/stats">
-<img src="https://img.shields.io/endpoint?url=https://instl.sh/stats/total/badge&style=for-the-badge" alt="Handeld Installations">
+<img src="https://img.shields.io/endpoint?url=https://instl.sh/stats/total/badge/shields.io&style=for-the-badge" alt="Handeld Installations">
 </a>
 
 <br>

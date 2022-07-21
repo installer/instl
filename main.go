@@ -11,6 +11,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
+	"github.com/gofiber/template/html"
 	"github.com/pterm/pterm"
 	"github.com/pterm/pterm/putils"
 	"go.uber.org/zap"
@@ -50,8 +51,10 @@ func main() {
 	logger, _ := zap.NewProduction(zap.WithCaller(false))
 	defer logger.Sync()
 
+	engine := html.New("./html", ".html")
 	app := fiber.New(fiber.Config{
 		DisableStartupMessage: true,
+		Views:                 engine,
 	})
 	app.Use(recover.New())
 	app.Use(cors.New(cors.Config{
@@ -61,14 +64,24 @@ func main() {
 		Logger: logger,
 	}))
 
-	app.Static("/stats", "./html/stats.html")
-
 	app.Get("/", handlers.RedirectToDocs)
-	app.Get("/api/stats", handlers.AllStats)
-	app.Get("/api/stats/:user/:repo", handlers.RepoStats)
-	app.Get("/api/stats/total", handlers.AllStatsTotal)
-	app.Get("/stats/total/badge", handlers.AllStatsTotalBadge)
-	app.Get("/api/stats/total/badge", handlers.AllStatsTotalBadge)
+
+	// API
+	app.Get("/api/stats", handlers.AllStatsAPI)
+	app.Get("/api/stats/:user/:repo", handlers.RepoStatsAPI)
+	app.Get("/api/stats/total", handlers.AllStatsTotalAPI)
+
+	// Stats
+	// - Stats landing page
+	app.Static("/stats", "./html/stats.html")
+	app.Get("/stats/:any", func(ctx *fiber.Ctx) error { return ctx.SendStatus(404) })
+	// - Total stats
+	app.Get("/stats/total/badge/shields.io", handlers.AllStatsTotalBadge)
+	// - Repo stats
+	app.Get("/stats/:user/:repo", handlers.RepoStats)
+	app.Get("/stats/:user/:repo/badge/shields.io", handlers.RepoStatsBadge)
+
+	// Installation script generator
 	app.Get("/:user/:repo", handlers.MissingPlatform)
 	app.Get("/:user/:repo/:os", handlers.Installation)
 	app.Get("/:user/:repo/:os/verbose", handlers.InstallationVerbose)

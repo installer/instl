@@ -5,7 +5,9 @@ go 1.18
 require (
 	github.com/gofiber/contrib/fiberzap v0.0.0-20220709072510-8cf53301f611
 	github.com/gofiber/fiber/v2 v2.35.0
+	github.com/gofiber/template v1.6.29
 	github.com/pterm/pterm v0.12.42
+	go.etcd.io/bbolt v1.3.6
 	go.uber.org/zap v1.21.0
 )
 
@@ -23,7 +25,6 @@ require (
 	github.com/valyala/fasthttp v1.38.0 // indirect
 	github.com/valyala/tcplisten v1.0.0 // indirect
 	github.com/xo/terminfo v0.0.0-20210125001918-ca9a967f8778 // indirect
-	go.etcd.io/bbolt v1.3.6 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
 	go.uber.org/multierr v1.7.0 // indirect
 	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
