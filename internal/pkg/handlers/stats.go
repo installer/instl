@@ -7,14 +7,27 @@ import (
 	"go.etcd.io/bbolt"
 )
 
-func Stats(c *fiber.Ctx) error {
+func RepoStats(c *fiber.Ctx) error {
 	user := c.Params("user")
 	repo := c.Params("repo")
+	linux, windows, macos, err := getInstallationCountPerPlatform(user, repo)
+	if err != nil {
+		return err
+	}
+	return c.JSON(map[string]any{
+		"windows": windows,
+		"linux":   linux,
+		"macos":   macos,
+		"total":   linux + windows + macos,
+	})
+}
+
+func getInstallationCountPerPlatform(user, repo string) (linux, windows, macos int, err error) {
 	keyBase := user + "/" + repo + "/"
 	keyWindows := keyBase + "windows"
 	keyLinux := keyBase + "linux"
 	keyMacOS := keyBase + "macos"
-	return db.View(func(tx *bbolt.Tx) error {
+	err = db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("installations"))
 		if b == nil {
 			return nil
@@ -24,15 +37,18 @@ func Stats(c *fiber.Ctx) error {
 		macosInstallationsRaw := b.Get([]byte(keyMacOS))
 
 		windowsInstallations, _ := strconv.Atoi(string(windowsInstallationsRaw))
+		windows = windowsInstallations
 		linuxInstallations, _ := strconv.Atoi(string(linuxInstallationsRaw))
+		linux = linuxInstallations
 		macosInstallations, _ := strconv.Atoi(string(macosInstallationsRaw))
-		return c.JSON(map[string]any{
-			"windows": windowsInstallations,
-			"linux":   linuxInstallations,
-			"macos":   macosInstallations,
-			"total":   windowsInstallations + linuxInstallations + macosInstallations,
-		})
+		macos = macosInstallations
+		return nil
 	})
+	if err != nil {
+		return 0, 0, 0, err
+	}
+
+	return linux, windows, macos, nil
 }
 
 func AllStats(c *fiber.Ctx) error {

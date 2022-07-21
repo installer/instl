@@ -65,7 +65,7 @@ func main() {
 
 	app.Get("/", handlers.RedirectToDocs)
 	app.Get("/api/stats", handlers.AllStats)
-	app.Get("/api/stats/:user/:repo", handlers.Stats)
+	app.Get("/api/stats/:user/:repo", handlers.RepoStats)
 	app.Get("/api/stats/total", handlers.AllStatsTotal)
 	app.Get("/stats/total/badge", handlers.AllStatsTotalBadge)
 	app.Get("/api/stats/total/badge", handlers.AllStatsTotalBadge)
