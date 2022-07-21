@@ -9,5 +9,6 @@ FROM scratch
 WORKDIR /app
 COPY --from=builder /build/main ./main
 ADD ./scripts /scripts
+ADD ./html /html
 EXPOSE 80
 ENTRYPOINT ["./main"]

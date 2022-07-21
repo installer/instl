@@ -61,6 +61,8 @@ func main() {
 		Logger: logger,
 	}))
 
+	app.Static("/stats", "./html/stats.html")
+
 	app.Get("/", handlers.RedirectToDocs)
 	app.Get("/api/stats", handlers.AllStats)
 	app.Get("/api/stats/:user/:repo", handlers.Stats)
