@@ -65,6 +65,8 @@ func main() {
 	}))
 
 	app.Get("/", handlers.RedirectToDocs)
+	app.Get("/docs", handlers.RedirectToDocs)
+	app.Get("/documentation", handlers.RedirectToDocs)
 
 	// API
 	app.Get("/api/stats", handlers.AllStatsAPI)
