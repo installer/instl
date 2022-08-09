@@ -45,7 +45,9 @@ info "Found latest release of $repo (version: $tagName)"
 
 # Get list of assets
 verbose "Parsing release json"
-assets="$(echo "$releaseJSON" | jq -r '.assets[] | .browser_download_url')"
+assets=$(echo "$releaseJSON" | grep "browser_download_url" | sed -E 's/.*"([^"]+)".*/\1/')
+verbose "Found assets:"
+verbose "$assets"
 assetCount="$(echo "$assets" | wc -l | sed -E 's/^[[:space:]]*//')"
 info "Found $assetCount assets in '$tagName' release - searching for one that fits your system..."
 
