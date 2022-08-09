@@ -9,17 +9,17 @@
 
 <br>
 
-<a style="text-decoration: none" href="https://github.com/installer/installer/releases">
+<a style="text-decoration: none" href="https://github.com/installer/instl/releases">
 <img src="https://img.shields.io/badge/platform-windows%20%7C%20macos%20%7C%20linux-informational?style=for-the-badge" alt="Downloads">
 </a>
 
 <br>
 
-<a style="text-decoration: none" href="https://github.com/installer/installer/stargazers">
+<a style="text-decoration: none" href="https://github.com/installer/instl/stargazers">
 <img src="https://img.shields.io/github/stars/installer/installer.svg?style=flat-square" alt="Stars">
 </a>
 
-<a style="text-decoration: none" href="https://github.com/installer/installer/issues">
+<a style="text-decoration: none" href="https://github.com/installer/instl/issues">
 <img src="https://img.shields.io/github/issues/installer/installer.svg?style=flat-square" alt="Issues">
 </a>
 

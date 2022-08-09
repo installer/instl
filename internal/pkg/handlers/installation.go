@@ -8,9 +8,9 @@ import (
 	"github.com/pterm/pterm"
 	"go.etcd.io/bbolt"
 
-	"github.com/installer/installer/internal/pkg/config"
-	"github.com/installer/installer/internal/pkg/platforms"
-	"github.com/installer/installer/scripts"
+	"github.com/installer/instl/internal/pkg/config"
+	"github.com/installer/instl/internal/pkg/platforms"
+	"github.com/installer/instl/scripts"
 )
 
 var db *bbolt.DB

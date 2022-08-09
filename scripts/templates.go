@@ -5,8 +5,8 @@ import (
 	"errors"
 	"text/template"
 
-	"github.com/installer/installer/internal/pkg/config"
-	"github.com/installer/installer/internal/pkg/platforms"
+	"github.com/installer/instl/internal/pkg/config"
+	"github.com/installer/instl/internal/pkg/platforms"
 )
 
 var (

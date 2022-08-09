@@ -18,7 +18,7 @@
 #                                   files.                                     #
 #                                                                              #
 #            You can see the source code of this server on GitHub:             #
-#                  https://github.com/installer/installer                      #
+#                  https://github.com/installer/instl                      #
 #                                                                              #
 #             Instl and its members are not associated with the                #
 #                       project that will be installed!                        #

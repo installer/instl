@@ -1,4 +1,4 @@
-module github.com/installer/installer
+module github.com/installer/instl
 
 go 1.18
 

@@ -16,11 +16,11 @@ import (
 	"github.com/pterm/pterm/putils"
 	"go.uber.org/zap"
 
-	"github.com/installer/installer/internal/pkg/config"
-	"github.com/installer/installer/internal/pkg/platforms"
-	"github.com/installer/installer/scripts"
+	"github.com/installer/instl/internal/pkg/config"
+	"github.com/installer/instl/internal/pkg/platforms"
+	"github.com/installer/instl/scripts"
 
-	"github.com/installer/installer/internal/pkg/handlers"
+	"github.com/installer/instl/internal/pkg/handlers"
 )
 
 func main() {
