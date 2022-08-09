@@ -64,7 +64,7 @@
                 let downloads = combinedData[repo];
                 let repoCell = document.createElement("td");
                 let downloadsCell = document.createElement("td");
-                repoCell.innerText = repo;
+                repoCell.innerHTML = '<a href="/stats/' + repo + '">' + repo + '</a>';
                 downloadsCell.innerText = downloads;
                 row.appendChild(repoCell);
                 row.appendChild(downloadsCell);
