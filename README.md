@@ -15,7 +15,7 @@
 <p align="center">Instl is a install script generator that can handle most GitHub projects with a single command!</p>
 
 <p align="center">
-<img width="750" src="https://user-images.githubusercontent.com/31022056/179850318-c764269d-2bf9-4966-96d0-03ad406cc2d2.png" alt="Instl Demo">
+<img width="900" src="https://raw.githubusercontent.com/installer/instl/main/demo.gif" alt="Instl Demo">
 </p>
 
 ----
