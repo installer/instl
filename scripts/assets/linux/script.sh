@@ -35,7 +35,7 @@ mkdir -p $installLocation
 source ../shared/intro.ps1
 
 # Installation
-curlOpts=("-sS")
+curlOpts=("-sS --retry 10 --retry-all-errors --retry-delay=1")
 if [ -n "$GH_TOKEN" ]; then
   verbose "Using authentication with GH_TOKEN"
   curlOpts+=("--header \"Authorization: Bearer $GH_TOKEN\"")
