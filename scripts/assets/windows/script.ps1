@@ -37,10 +37,26 @@ New-Item -Path $installLocation -ItemType Directory > $null
 . "../shared/intro.ps1"
 
 # Installation
+$Headers = @{}
+
+if ($env:GH_TOKEN)
+{
+  verbose "Using authentication with GH_TOKEN"
+  $Headers.Authorization = "Bearer $GH_TOKEN"
+}
+elseif ($env:GITHUB_TOKEN)
+{
+  verbose "Using authentication with GITHUB_TOKEN"
+  $Headers.Authorization = "Bearer $GITHUB_TOKEN"
+}
+else
+{
+  verbose "No authentication"
+}
 
 # GitHub public API
 $latestReleaseURL = "https://api.github.com/repos/$owner/$repo/releases/latest"
-$latestRelease = Invoke-WebRequest $latestReleaseURL | ConvertFrom-Json
+$latestRelease = Invoke-WebRequest -Uri $latestReleaseURL -Headers $Headers -MaximumRetryCount 10 | ConvertFrom-Json
 $tagName = $latestRelease.tag_name
 info "Found latest release of $repo (version: $tagName)"
 
@@ -138,7 +154,7 @@ info "Found asset with highest match score: $assetName"
 # Downoad asset
 info "Downloading asset..."
 $assetPath = "$tmpDir\$assetName"
-Invoke-Expression "Invoke-WebRequest -Uri $assetURL -OutFile $assetPath"
+Invoke-Expression "Invoke-WebRequest -Uri $assetURL -OutFile $assetPath -Headers $Headers -MaximumRetryCount 10"
 verbose "Asset downloaded to $assetPath"
 
 info "Installing $repo"
