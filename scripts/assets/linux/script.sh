@@ -35,7 +35,7 @@ mkdir -p $installLocation
 source ../shared/intro.ps1
 
 # Installation
-curlOpts=("-sS --retry 10 --retry-all-errors --retry-delay=1")
+curlOpts=("-sS --retry 10 --retry-all-errors --retry-delay 1")
 if [ -n "$GH_TOKEN" ]; then
   verbose "Using authentication with GH_TOKEN"
   curlOpts+=("--header \"Authorization: Bearer $GH_TOKEN\"")
@@ -51,7 +51,7 @@ latestReleaseURL="https://api.github.com/repos/$owner/$repo/releases/latest"
 verbose "Getting latest release from GitHub"
 getReleaseArgs=$curlOpts
 getReleaseArgs+=("$latestReleaseURL")
-releaseJSON="$(curl "${getReleaseArgs[@]}")"
+releaseJSON="$(curl ${getReleaseArgs[@]})"
 tagName="$(echo "$releaseJSON" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
 info "Found latest release of $repo (version: $tagName)"
 
@@ -167,7 +167,7 @@ info "Downloading asset..."
 # Download asset
 downloadAssetArgs=$curlOpts
 downloadAssetArgs+=(-L "$assetURL" -o "$tmpDir/$assetName")
-curl "${downloadAssetArgs[@]}"
+curl ${downloadAssetArgs[@]}
 
 # Unpack asset if it is a  tar, tar.gz or tar.bz2 file
 if [[ "$assetName" == *".tar" ]]; then
