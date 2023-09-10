@@ -3,8 +3,8 @@
 .vscode
 
 # Compiled binaries
-installer
-installer.exe
+instl.exe
+instl
 
 # Temporary files
 tmp
