@@ -12,15 +12,17 @@ else
   verbose=false
 fi
 
+# Pass variables from the go server into the script
 verbose "Setting up variables"
 owner="{{ .Owner }}"
 repo="{{ .Repo }}"
+
 verbose "Creating temporary directory"
 tmpDir="$(mktemp -d)"
 
 binaryLocation="$HOME/.local/bin"
 verbose "Binary location: $binaryLocation"
-mkdir -p $binaryLocation
+mkdir -p "$binaryLocation"
 
 installLocation="$HOME/.local/bin/.instl/$repo"
 verbose "Install location: $installLocation"
@@ -29,13 +31,13 @@ if [ -d "$installLocation" ]; then
   verbose "Removing existing install location"
   rm -rf "$installLocation"
 fi
-mkdir -p $installLocation
+mkdir -p "$installLocation"
 
 # Print "INSTL" header
 source ../shared/intro.ps1
 
 # Installation
-curlOpts=("-sS --retry 10 --retry-all-errors --retry-delay 1")
+curlOpts=("-sS")
 if [ -n "$GH_TOKEN" ]; then
   verbose "Using authentication with GH_TOKEN"
   curlOpts+=("--header \"Authorization: Bearer $GH_TOKEN\"")
