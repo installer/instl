@@ -18,3 +18,7 @@ metrics.db
 
 # Experimenting folder
 experimenting
+
+# Testing files
+run.sh
+run.ps1

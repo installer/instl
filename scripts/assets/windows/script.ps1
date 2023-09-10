@@ -56,7 +56,7 @@ else
 
 # GitHub public API
 $latestReleaseURL = "https://api.github.com/repos/$owner/$repo/releases/latest"
-$latestRelease = Invoke-WebRequest -Uri $latestReleaseURL -Headers $Headers -MaximumRetryCount 10 | ConvertFrom-Json
+$latestRelease = Invoke-WebRequest -Uri $latestReleaseURL -Headers $Headers | ConvertFrom-Json
 $tagName = $latestRelease.tag_name
 info "Found latest release of $repo (version: $tagName)"
 
