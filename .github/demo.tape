@@ -16,7 +16,7 @@ Show
 Type 'curl -sSL instl.sh/installer/test-repo/linux | bash'
 
 # Pause for dramatic effect...
-Sleep 2s
+Sleep 3s
 
 # Run the command by pressing enter.
 Enter

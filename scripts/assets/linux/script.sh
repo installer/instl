@@ -63,7 +63,7 @@ assets=$(echo "$releaseJSON" | grep "browser_download_url" | sed -E 's/.*"([^"]+
 verbose "Found assets:"
 verbose "$assets"
 assetCount="$(echo "$assets" | wc -l | sed -E 's/^[[:space:]]*//')"
-info "Found $assetCount assets in '$tagName' release - searching for one that fits your system..."
+info "Found $assetCount assets in '$tagName' - searching for one that fits your system..."
 
 # Get architecture of host
 arch="$(uname -m)"
@@ -231,7 +231,7 @@ verbose "Removing temporary directory"
 rm -rf "$tmpDir"
 
 echo
-success "You can now run '$binaryName' in your terminal."
-info "You might have to restart your terminal session for the changes to take effect."
+success "You can now run '$binaryName' in your terminal!"
+info "You might have to restart your terminal session for the changes to take effect"
 
 source ../footer.txt

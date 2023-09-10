@@ -66,9 +66,9 @@ info "Found latest release of $repo (version: $tagName)"
 verbose "Getting list of assets"
 $assetsRaw = $latestRelease.assets
 # Map to array
-$assets = $assetsRaw | %{ $_.browser_download_url }
+$assets = $assetsRaw | ForEach-Object { $_.browser_download_url }
 $assetCount = $assets.Count
-info "Found $assetCount assets in '$tagName' release - searching for one that fits your system..."
+info "Found $assetCount assets in '$tagName' - searching for one that fits your system..."
 
 # Get host architecture
 $arch = $env:PROCESSOR_ARCHITECTURE
@@ -209,8 +209,8 @@ if (test-path $tmpDir)
     rm -r -fo $tmpDir
 }
 
-echo ""
-success "You can now run '$command' in your terminal."
-info "You might have to restart your terminal session for the changes to take effect."
+Write-Host ""
+success "You can now run '$command' in your terminal!"
+info "You might have to restart your terminal session for the changes to take effect"
 
 . "../footer.txt"
