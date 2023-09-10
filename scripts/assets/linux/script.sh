@@ -35,11 +35,23 @@ mkdir -p $installLocation
 source ../shared/intro.ps1
 
 # Installation
+curlOpts=("-sS --retry 10 --retry-all-errors --retry-delay 1")
+if [ -n "$GH_TOKEN" ]; then
+  verbose "Using authentication with GH_TOKEN"
+  curlOpts+=("--header \"Authorization: Bearer $GH_TOKEN\"")
+elif [ -n "$GITHUB_TOKEN" ]; then
+  verbose "Using authentication with GITHUB_TOKEN"
+  curlOpts+=("--header \"Authorization: Bearer $GITHUB_TOKEN\"")
+else
+  verbose "No authentication"
+fi
 
 # GitHub public API
 latestReleaseURL="https://api.github.com/repos/$owner/$repo/releases/latest"
 verbose "Getting latest release from GitHub"
-releaseJSON="$(curl -sS "$latestReleaseURL")"
+getReleaseArgs=$curlOpts
+getReleaseArgs+=("$latestReleaseURL")
+releaseJSON="$(curl ${getReleaseArgs[@]})"
 tagName="$(echo "$releaseJSON" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
 info "Found latest release of $repo (version: $tagName)"
 
@@ -129,7 +141,7 @@ for asset in $assets; do
     fi
   done
 
-  # Initzialize asset with score
+  # Initialize asset with score
   map_put assets "$fileName" "$score"
 done
 
@@ -153,7 +165,9 @@ info "Found asset with highest match score: $assetName"
 
 info "Downloading asset..."
 # Download asset
-curl -sS -L "$assetURL" -o "$tmpDir/$assetName"
+downloadAssetArgs=$curlOpts
+downloadAssetArgs+=(-L "$assetURL" -o "$tmpDir/$assetName")
+curl ${downloadAssetArgs[@]}
 
 # Unpack asset if it is a  tar, tar.gz or tar.bz2 file
 if [[ "$assetName" == *".tar" ]]; then
@@ -195,7 +209,7 @@ verbose "Binary name: $binaryName"
 
 # Remove previous symlink if it exists
 verbose "Removing previous symlink"
-rm "$binaryLocation/$repo" > /dev/null || true
+rm "$binaryLocation/$repo" > /dev/null 2>&1 || true
 # Create symlink to binary
 verbose "Creating symlink '$binaryLocation/$binaryName' -> '$binary'"
 ln -s "$binary" "$binaryLocation/$binaryName"
@@ -204,7 +218,7 @@ ln -s "$binary" "$binaryLocation/$binaryName"
 if ! echo "$PATH" | grep -q "$binaryLocation"; then
   verbose "Adding $binaryLocation to PATH"
   # Append binaryLocation to .profile, if it is not already in .profile
-  if ! grep -q "export PATH=$binaryLocation:\$PATH" "$HOME/.profile"; then
+  if ! grep -q -s "export PATH=$binaryLocation:\$PATH" "$HOME/.profile"; then
     verbose "Appending $binaryLocation to $HOME/.profile"
     echo "export PATH=$binaryLocation:\$PATH" >>"$HOME/.profile"
   fi

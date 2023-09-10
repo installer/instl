@@ -39,7 +39,7 @@
 # Linux:
 # curl -sSL instl.sh/{{ .Owner }}/{{ .Repo }}/linux | bash
 #
-# MacOS:
+# macOS:
 # curl -sSL instl.sh/{{ .Owner }}/{{ .Repo }}/macos | bash
 #
 # Windows:
