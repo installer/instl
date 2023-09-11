@@ -219,11 +219,26 @@ ln -s "$binary" "$binaryLocation/$binaryName"
 # Add binaryLocation to PATH, if it is not already in PATH
 if ! echo "$PATH" | grep -q "$binaryLocation"; then
   verbose "Adding $binaryLocation to PATH"
-  # Append binaryLocation to .profile, if it is not already in .profile
-  if ! grep -q -s "export PATH=$binaryLocation:\$PATH" "$HOME/.profile"; then
-    verbose "Appending $binaryLocation to $HOME/.profile"
-    echo "export PATH=$binaryLocation:\$PATH" >>"$HOME/.profile"
-  fi
+  # Array of common shell configuration files
+  config_files=("$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.zshrc" "$HOME/.profile")
+  for config in "${config_files[@]}"; do
+    # Check if the file exists
+    if [ -f "$config" ]; then
+      # Check if binaryLocation is already in the file
+      if ! grep -q -s "export PATH=$binaryLocation:\$PATH" "$config"; then
+        verbose "Appending $binaryLocation to $config"
+        echo "" >> "$config"
+        echo "# Instl.sh installer binary location" >> "$config"
+        echo "export PATH=$binaryLocation:\$PATH" >> "$config"
+      else
+        verbose "$binaryLocation is already in $config"
+      fi
+    else
+      verbose "$config does not exist. Skipping append."
+    fi
+  done
+else
+  verbose "$binaryLocation is already in PATH"
 fi
 
 info "Running clean up..."
