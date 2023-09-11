@@ -1,12 +1,12 @@
 {{template "base"}}
 
 {{define "content"}}
-        <header>
-            <hgroup>
-                <h1>Instl: The Easiest Installer for GitHub Projects</h1>
-                <h2>No need for configuration - it just works!</h2>
-            </hgroup>
-        </header>
+    <header>
+        <hgroup>
+            <h1>Instl: The Easiest Installer for GitHub Projects</h1>
+            <h2>No need for configuration - it just works!</h2>
+        </hgroup>
+    </header>
 
     <article>
         <h2>Key Features</h2>
@@ -16,42 +16,46 @@
             <li>🪶 Web-Based: No need to install Instl - scripts are generated server-side</li>
             <li>⚙️ Intelligent Configuration: Instl adapts to the project's structure</li>
             <li>🕊️ On the fly: Installer scripts are created in real-time for each project</li>
-            <li>📊 <a href="/stats">Track Your Installs</a>: Installation metrics for your projects at your fingertips</li>
+            <li>📊 <a href="/stats">Track Your Installs</a>: Installation metrics for your projects at your fingertips
+            </li>
         </ul>
 
-        <h2>Try it out:</h2>
+        <hgroup>
+            <h2>Try it out:</h2>
+            <h3>Ready for a spin?</h3>
+        </hgroup>
         <p>
-            Ready for a spin? Install our demo repository, <code>test-repo</code>, to see Instl in action.
+            Install our demo repository, <code>test-repo</code>, to see Instl in action.
             If successful, you should be able to run <code>test-repo</code> right from your terminal.
         </p>
-            <table role="grid">
-                <thead>
-                <tr>
-                    <th>Platform</th>
-                    <th>Command</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Windows</td>
-                    <td><code>iwr instl.sh/installer/test-repo/windows | iex</code></td>
-                </tr>
-                <tr>
-                    <td>Linux</td>
-                    <td><code>curl -sSL instl.sh/installer/test-repo/linux | bash</code></td>
-                </tr>
-                <tr>
-                    <td>MacOS</td>
-                    <td><code>curl -sSL instl.sh/installer/test-repo/macos | bash</code></td>
-                </tr>
-                </tbody>
-            </table>
+        <table role="grid">
+            <thead>
+            <tr>
+                <th>Platform</th>
+                <th>Command</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Windows</td>
+                <td><code>iwr instl.sh/installer/test-repo/windows | iex</code></td>
+            </tr>
+            <tr>
+                <td>Linux</td>
+                <td><code>curl -sSL instl.sh/installer/test-repo/linux | bash</code></td>
+            </tr>
+            <tr>
+                <td>MacOS</td>
+                <td><code>curl -sSL instl.sh/installer/test-repo/macos | bash</code></td>
+            </tr>
+            </tbody>
+        </table>
 
         <p>
             Don't want to install our demo repo, but you still want to see Instl in action? No problem!
         </p>
         <p style="text-align: center">
-            <img alt="demo animation" src="https://raw.githubusercontent.com/installer/instl/main/demo.gif" />
+            <img alt="demo animation" src="https://raw.githubusercontent.com/installer/instl/main/demo.gif"/>
         </p>
     </article>
 
