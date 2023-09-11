@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/gofiber/fiber/v2/log"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/installer/instl/templates"
 	"os"
@@ -13,12 +14,9 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 	"github.com/installer/instl/internal/pkg/config"
+	"github.com/installer/instl/internal/pkg/handlers"
 	"github.com/installer/instl/internal/pkg/platforms"
 	"github.com/installer/instl/scripts"
-	"github.com/pterm/pterm"
-	"github.com/pterm/pterm/putils"
-
-	"github.com/installer/instl/internal/pkg/handlers"
 )
 
 func main() {
@@ -31,7 +29,10 @@ func main() {
 	// Check if test flag is set
 	if *test {
 		platform, err := platforms.Parse(runtime.GOOS)
-		pterm.Fatal.PrintOnError(err)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		script, err := scripts.ParseTemplateForPlatform(platform, config.Config{
 			Owner:     *owner,
 			Repo:      *repo,
@@ -39,12 +40,20 @@ func main() {
 			CreatedAt: time.Now(),
 			Verbose:   *verbose,
 		})
-		pterm.Fatal.PrintOnError(err)
+		if err != nil {
+			log.Fatal(err)
+		}
+
 		fmt.Println(script)
 		os.Exit(0)
 	}
 
-	pterm.DefaultBigText.WithLetters(putils.LettersFromString("  INSTL")).Render()
+	fmt.Println(`        ██ ███    ██ ███████ ████████ ██      
+        ██ ████   ██ ██         ██    ██      
+        ██ ██ ██  ██ ███████    ██    ██      
+        ██ ██  ██ ██      ██    ██    ██      
+        ██ ██   ████ ███████    ██    ███████ 
+`)
 
 	engine := templates.New()
 	app := fiber.New(fiber.Config{
@@ -85,5 +94,5 @@ func main() {
 	app.Get("/:user/:repo/:os", handlers.Installation)
 	app.Get("/:user/:repo/:os/verbose", handlers.InstallationVerbose)
 
-	pterm.Fatal.PrintOnError(app.Listen(":80"))
+	log.Fatal(app.Listen(":80"))
 }
