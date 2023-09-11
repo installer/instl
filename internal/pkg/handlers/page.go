@@ -60,6 +60,7 @@ func AllStatsPage(c *fiber.Ctx) error {
 	}
 
 	var stats []Stat
+	var total int
 
 	for k, v := range statsMap {
 		parts := strings.Split(k, "/")
@@ -68,6 +69,7 @@ func AllStatsPage(c *fiber.Ctx) error {
 			Repo:  parts[1],
 			Count: v,
 		})
+		total += v
 	}
 
 	slices.SortFunc(stats, func(a, b Stat) int {
@@ -76,5 +78,6 @@ func AllStatsPage(c *fiber.Ctx) error {
 
 	return c.Render("stats.gohtml", map[string]any{
 		"Stats": stats,
+		"Total": total,
 	})
 }
