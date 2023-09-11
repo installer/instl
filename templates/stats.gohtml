@@ -15,7 +15,7 @@
             <tbody>
             {{ range $key, $value := .Stats }}
                 <tr>
-                    <td><a href="/stats/{{ $key }}">{{ $key }}</a></td>
+                    <td><a href="/{{ $key }}">{{ $key }}</a></td>
                     <td>{{ $value }}</td>
                 </tr>
             {{ end }}

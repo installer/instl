@@ -17,7 +17,7 @@ func RepoStatsPage(c *fiber.Ctx) error {
 	if err != nil {
 		return err
 	}
-	return c.Render("stats-repo.gohtml", map[string]any{
+	return c.Render("repo.gohtml", map[string]any{
 		"Windows": windows,
 		"Linux":   linux,
 		"MacOS":   macos,

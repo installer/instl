@@ -5,17 +5,17 @@ h1::before {
     color: #a8a8a8;
 }
 
-h2:first-child::before {
+h2::before {
     content: "## ";
     color: #a8a8a8;
 }
 
-h3:first-child::before {
+h3::before {
     content: "### ";
     color: #a8a8a8;
 }
 
-h4:first-child::before {
+h4::before {
     content: "#### ";
     color: #a8a8a8;
 }

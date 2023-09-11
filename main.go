@@ -74,12 +74,14 @@ func main() {
 	app.Get("/stats/:any", func(ctx *fiber.Ctx) error { return ctx.SendStatus(404) })
 	// - Total stats
 	app.Get("/stats/total/badge/shields.io", handlers.AllStatsTotalBadge)
-	// - Repo stats
-	app.Get("/stats/:user/:repo", handlers.RepoStatsPage)
+	// - Legacy redirect
+	app.Get("/:user/:repo", handlers.RepoStatsPage)
+	app.Get("/stats/:user/:repo", handlers.RedirectLegacyStats)
+	// - Badge
 	app.Get("/stats/:user/:repo/badge/shields.io", handlers.RepoStatsBadge)
+	app.Get("/:user/:repo/badge/shields.io", handlers.RepoStatsBadge)
 
 	// Installation script generator
-	app.Get("/:user/:repo", handlers.MissingPlatform)
 	app.Get("/:user/:repo/:os", handlers.Installation)
 	app.Get("/:user/:repo/:os/verbose", handlers.InstallationVerbose)
 

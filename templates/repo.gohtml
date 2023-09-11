@@ -1,0 +1,92 @@
+{{template "base" .}}
+
+{{define "title"}}Installer for {{.Owner}}/{{.Repo}}{{end}}
+
+{{ define "content"}}
+    <header>
+        <hgroup>
+            <h1>Installer for <a href="https://github.com/{{.Owner}}/{{.Repo}}">github.com/{{.Owner}}/{{.Repo}}</a></h1>
+            <p id="repo-desc"></p>
+        </hgroup>
+    </header>
+    <article>
+        <hgroup>
+            <h2>Install</h2>
+            <p>Install <a href="https://github.com/{{.Owner}}/{{.Repo}}">{{.Owner}}/{{.Repo}}</a> by running the right
+                command for your platform</p>
+        </hgroup>
+        <table role="grid">
+            <thead>
+            <tr>
+                <th>Platform</th>
+                <th>Command</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Windows</td>
+                <td><code>iwr instl.sh/{{.Owner}}/{{.Repo}}/windows | iex</code></td>
+            </tr>
+            <tr>
+                <td>Linux</td>
+                <td><code>curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/linux | bash</code></td>
+            </tr>
+            <tr>
+                <td>macOS</td>
+                <td><code>curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/macos | bash</code></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <h2>📊 Statistics</h2>
+
+        <table role="grid">
+            <tbody>
+            <tr>
+                <td>Total downloads</td>
+                <td>{{ .Total }}</td>
+            </tr>
+            <tr>
+                <td>Linux downloads</td>
+                <td>{{ .Linux }}</td>
+            </tr>
+            <tr>
+                <td>macOS downloads</td>
+                <td>{{ .MacOS }}</td>
+            </tr>
+            <tr>
+                <td>Windows downloads</td>
+                <td>{{ .Windows }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </article>
+
+    <script lang="js">
+      fetchGitHubRepoDescription('{{.Owner}}', '{{.Repo}}')
+        .then(description => {
+          if (description) {
+            document.getElementById('repo-desc').textContent = description;
+          }
+        });
+
+      async function fetchGitHubRepoDescription(username, repoName) {
+        const url = `https://api.github.com/repos/${username}/${repoName}`;
+
+        try {
+          const response = await fetch(url);
+          if (response.ok) {
+            const data = await response.json();
+            return data.description;
+          } else {
+            console.error(`Failed to fetch data: ${response.statusText}`);
+            return null;
+          }
+        } catch (error) {
+          console.error(`An error occurred: ${error}`);
+          return null;
+        }
+      }
+    </script>
+{{end}}

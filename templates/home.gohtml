@@ -1,10 +1,12 @@
 {{template "base"}}
 
+{{define "title"}}Instl: The Easiest Installer for GitHub Projects{{end}}
+
 {{define "content"}}
     <header>
         <hgroup>
             <h1>Instl: The Easiest Installer for GitHub Projects</h1>
-            <h2>No need for configuration - it just works!</h2>
+            <p>No need for configuration - it just works!</p>
         </hgroup>
     </header>
 
@@ -22,7 +24,7 @@
 
         <hgroup>
             <h2>Try it out:</h2>
-            <h3>Ready for a spin?</h3>
+            <p>Ready for a spin?</p>
         </hgroup>
         <p>
             Install our demo repository, <code>test-repo</code>, to see Instl in action.
@@ -45,7 +47,7 @@
                 <td><code>curl -sSL instl.sh/installer/test-repo/linux | bash</code></td>
             </tr>
             <tr>
-                <td>MacOS</td>
+                <td>macOS</td>
                 <td><code>curl -sSL instl.sh/installer/test-repo/macos | bash</code></td>
             </tr>
             </tbody>
