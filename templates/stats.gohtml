@@ -1,8 +1,13 @@
 {{template "base" .}}
 
+{{define "title"}}Installation statistics{{end}}
+
 {{ define "content"}}
     <header>
-        <h1>Installation statistics</h1>
+        <hgroup>
+            <h1>Installation statistics</h1>
+            <p>GitHub projects installations via Instl</p>
+        </hgroup>
     </header>
     <article>
         <table role="grid">
@@ -10,6 +15,7 @@
             <tr>
                 <th>Repository</th>
                 <th>Downloads</th>
+                <th>GitHub Link</th>
             </tr>
             </thead>
             <tbody>
@@ -17,6 +23,7 @@
                 <tr>
                     <td><a href="/{{ $key }}">{{ $key }}</a></td>
                     <td>{{ $value }}</td>
+                    <td><a href="https://github.com/{{ $key }}">GitHub</a></td>
                 </tr>
             {{ end }}
             </tbody>
