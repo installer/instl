@@ -19,3 +19,8 @@ h4::before:not(hgroup h4) {
     content: "#### ";
     color: #a8a8a8;
 }
+
+article {
+    padding-top: calc(1.5 * 1rem);
+    padding-bottom: calc(1.5 * 1rem);
+}
