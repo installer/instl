@@ -19,11 +19,11 @@
             </tr>
             </thead>
             <tbody>
-            {{ range $key, $value := .Stats }}
+            {{ range $index, $element := .Stats }}
                 <tr>
-                    <td><a href="/{{ $key }}">{{ $key }}</a></td>
-                    <td>{{ $value }}</td>
-                    <td><a href="https://github.com/{{ $key }}">GitHub</a></td>
+                    <td><a href="/{{ $element.Owner }}/{{ $element.Repo }}">{{ $element.Owner }}/{{ $element.Repo }}</a></td>
+                    <td>{{ $element.Count }}</td>
+                    <td><a href="https://github.com/{{ $element.Owner }}/{{ $element.Repo }}">GitHub</a></td>
                 </tr>
             {{ end }}
             </tbody>

@@ -3,6 +3,7 @@ package handlers
 import (
 	"github.com/gofiber/fiber/v2"
 	"go.etcd.io/bbolt"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -27,8 +28,14 @@ func RepoStatsPage(c *fiber.Ctx) error {
 	})
 }
 
+type Stat struct {
+	Owner string
+	Repo  string
+	Count int
+}
+
 func AllStatsPage(c *fiber.Ctx) error {
-	stats := map[string]int{}
+	statsMap := map[string]int{}
 
 	err := db.View(func(tx *bbolt.Tx) error {
 		b := tx.Bucket([]byte("installations"))
@@ -44,13 +51,28 @@ func AllStatsPage(c *fiber.Ctx) error {
 			var repo string
 			parts := strings.Split(string(k), "/")
 			repo = strings.Join(parts[:2], "/")
-			stats[repo] += count
+			statsMap[repo] += count
 			return nil
 		})
 	})
 	if err != nil {
 		return err
 	}
+
+	var stats []Stat
+
+	for k, v := range statsMap {
+		parts := strings.Split(k, "/")
+		stats = append(stats, Stat{
+			Owner: parts[0],
+			Repo:  parts[1],
+			Count: v,
+		})
+	}
+
+	slices.SortFunc(stats, func(a, b Stat) int {
+		return b.Count - a.Count
+	})
 
 	return c.Render("stats.gohtml", map[string]any{
 		"Stats": stats,
