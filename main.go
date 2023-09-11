@@ -3,22 +3,20 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/installer/instl/templates"
 	"os"
 	"runtime"
 	"time"
 
-	"github.com/gofiber/contrib/fiberzap"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
-	"github.com/gofiber/template/html"
-	"github.com/pterm/pterm"
-	"github.com/pterm/pterm/putils"
-	"go.uber.org/zap"
-
 	"github.com/installer/instl/internal/pkg/config"
 	"github.com/installer/instl/internal/pkg/platforms"
 	"github.com/installer/instl/scripts"
+	"github.com/pterm/pterm"
+	"github.com/pterm/pterm/putils"
 
 	"github.com/installer/instl/internal/pkg/handlers"
 )
@@ -48,23 +46,20 @@ func main() {
 
 	pterm.DefaultBigText.WithLetters(putils.LettersFromString("  INSTL")).Render()
 
-	logger, _ := zap.NewProduction(zap.WithCaller(false))
-	defer logger.Sync()
-
-	engine := html.New("./html", ".html")
+	engine := templates.New()
 	app := fiber.New(fiber.Config{
 		DisableStartupMessage: true,
 		Views:                 engine,
 	})
+
+	app.Use(logger.New())
 	app.Use(recover.New())
 	app.Use(cors.New(cors.Config{
 		AllowOrigins: "*",
 	}))
-	app.Use(fiberzap.New(fiberzap.Config{
-		Logger: logger,
-	}))
 
-	app.Get("/", handlers.RedirectToDocs)
+	app.Get("/", handlers.HomePage)
+	app.Static("/", "./static")
 	app.Get("/docs", handlers.RedirectToDocs)
 	app.Get("/documentation", handlers.RedirectToDocs)
 
@@ -75,12 +70,12 @@ func main() {
 
 	// Stats
 	// - Stats landing page
-	app.Static("/stats", "./html/stats.html")
+	app.Get("/stats", handlers.AllStatsPage)
 	app.Get("/stats/:any", func(ctx *fiber.Ctx) error { return ctx.SendStatus(404) })
 	// - Total stats
 	app.Get("/stats/total/badge/shields.io", handlers.AllStatsTotalBadge)
 	// - Repo stats
-	app.Get("/stats/:user/:repo", handlers.RepoStats)
+	app.Get("/stats/:user/:repo", handlers.RepoStatsPage)
 	app.Get("/stats/:user/:repo/badge/shields.io", handlers.RepoStatsBadge)
 
 	// Installation script generator

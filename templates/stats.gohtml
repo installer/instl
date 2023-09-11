@@ -1,0 +1,25 @@
+{{template "base" .}}
+
+{{ define "content"}}
+    <header>
+        <h1>Installation statistics</h1>
+    </header>
+    <article>
+        <table>
+            <thead>
+            <tr>
+                <th>Repository</th>
+                <th>Downloads</th>
+            </tr>
+            </thead>
+            <tbody>
+            {{ range $key, $value := .Stats }}
+                <tr>
+                    <td><a href="/stats/{{ $key }}">{{ $key }}</a></td>
+                    <td>{{ $value }}</td>
+                </tr>
+            {{ end }}
+            </tbody>
+        </table>
+    </article>
+{{end}}

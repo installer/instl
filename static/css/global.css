@@ -1,0 +1,21 @@
+/* Global CSS */
+
+h1::before {
+    content: "# ";
+    color: #a8a8a8;
+}
+
+h2::before:not(hgroup h2) {
+    content: "## ";
+    color: #a8a8a8;
+}
+
+h3::before:not(hgroup h3) {
+    content: "### ";
+    color: #a8a8a8;
+}
+
+h4::before:not(hgroup h4) {
+    content: "#### ";
+    color: #a8a8a8;
+}

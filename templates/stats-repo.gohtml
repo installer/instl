@@ -1,0 +1,32 @@
+{{template "base" .}}
+
+{{ define "content"}}
+    <header>
+        <h1>Instl.sh | Stats</h1>
+    </header>
+    <article>
+        <h2>Installation stats for <a href="https://github.com/{{.Owner}}/{{.Repo}}">{{.Owner}}/{{.Repo}}</a></h2>
+        <table class="stats shadow mt-4">
+            <thead>
+            <tbody>
+            <tr>
+                <td>Total downloads</td>
+                <td>{{ .Total }}</td>
+            </tr>
+            <tr>
+                <td>Linux downloads</td>
+                <td>{{ .Linux }}</td>
+            </tr>
+            <tr>
+                <td>macOS downloads</td>
+                <td>{{ .MacOS }}</td>
+            </tr>
+            <tr>
+                <td>Windows downloads</td>
+                <td>{{ .Windows }}</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </article>
+{{end}}
