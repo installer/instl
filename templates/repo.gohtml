@@ -61,6 +61,42 @@
             </tbody>
         </table>
 
+        <hgroup>
+            <h2>Markdown</h2>
+            <p>Markdown presets for your <code>README</code>!</p>
+        </hgroup>
+
+        <h3>Table</h3>
+        <pre><code>
+| Platform | Command |
+| -------- | ------- |
+| Windows  | <code>iwr instl.sh/{{.Owner}}/{{.Repo}}/windows | iex</code> |
+| macOS    | <code>curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/macos | bash</code> |
+| Linux    | <code>curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/linux | bash</code> |
+
+> [📊 Install stats](https://instl.sh/{{.Owner}}/{{.Repo}})
+</code></pre>
+
+        <h3>Headings</h3>
+        <pre><code>
+#### Windows
+```powershell
+iwr instl.sh/{{.Owner}}/{{.Repo}}/windows | iex
+```
+
+#### macOS
+```bash
+curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/macos | bash
+```
+
+#### Linux
+```bash
+curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/linux | bash
+```
+
+> [📊 Install stats](https://instl.sh/{{.Owner}}/{{.Repo}})
+</code></pre>
+
     </article>
 
     <script lang="js">
