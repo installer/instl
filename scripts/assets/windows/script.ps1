@@ -148,6 +148,12 @@ foreach ($Key in $assetMap.Keys)
     }
 }
 
+# Check if no asset is found
+if ($highestScore -eq 0)
+{
+    error "Could not find any assets that fit your system"
+    exit 1
+}
 
 $assetURL = $highestScoreAsset
 $assetName = $assetURL.Split('/')[-1]

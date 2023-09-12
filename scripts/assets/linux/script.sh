@@ -122,26 +122,36 @@ for asset in $assets; do
   # Set score to one, if the file name contains the current os
   for osAlias in "${currentOsAliases[@]}"; do
     if [[ "${fileName}" == *"$osAlias"* ]]; then
-      score=1
+      score=10
       break
     fi
   done
 
-  # Skip assets that do not match the operating system of the host
-  if [ $score != 1 ]; then
-    verbose "Skipping asset $fileName because it does not match the current operating system"
-    continue
-  fi
-
-  verbose "$fileName matches current operating system"
-
-  # Add one to the score for every alias that matches the current architecture
+  # Add two to the score for every alias that matches the current architecture
   for archAlias in "${currentArchAliases[@]}"; do
     if [[ "${fileName}" == *"$archAlias"* ]]; then
       verbose "Adding one to score for asset $fileName because it matches architecture $archAlias"
-      score=$((score + 1))
+      score=$((score + 2))
     fi
   done
+
+  # Add one to the score if the file name contains .tar or .tar.gz or .tar.bz2
+  if [[ "$fileName" == *".tar" ]] || [[ "$fileName" == *".tar.gz" ]] || [[ "$fileName" == *".tar.bz2" ]]; then
+    verbose "Adding one to score for asset $fileName because it is a .tar or .tar.gz or .tar.bz2 file"
+    score=$((score + 1))
+  fi
+
+  # Add two to the score if the file name contains the repo name
+  if [[ "$fileName" == *"$repo"* ]]; then
+    verbose "Adding two to score for asset $fileName because it contains the repo name"
+    score=$((score + 2))
+  fi
+
+  # Add one to the score if the file name is exactly the repo name
+  if [[ "$fileName" == "$repo" ]]; then
+    verbose "Adding one to score for asset $fileName because it is exactly the repo name"
+    score=$((score + 1))
+  fi
 
   # Initialize asset with score
   map_put assets "$fileName" "$score"
@@ -160,6 +170,13 @@ for key in $(map_keys assets); do
 done
 
 assetName="$maxKey"
+
+# Check if asset name is still empty
+if [ -z "$assetName" ]; then
+  error "Could not find any assets that fit your system"
+  exit 1
+fi
+
 # Get asset URL from release assets
 assetURL="$(echo "$assets" | grep -i "$assetName")"
 
@@ -169,23 +186,28 @@ info "Downloading asset..."
 # Download asset
 downloadAssetArgs=$curlOpts
 downloadAssetArgs+=(-L "$assetURL" -o "$tmpDir/$assetName")
+verbose ${downloadAssetArgs[@]}
 curl ${downloadAssetArgs[@]}
 
 # Unpack asset if it is a  tar, tar.gz or tar.bz2 file
 if [[ "$assetName" == *".tar" ]]; then
   verbose "Unpacking .tar asset"
   tar -xf "$tmpDir/$assetName" -C "$tmpDir"
+  verbose "Removing packed asset"
+  rm "$tmpDir/$assetName"
 elif [[ "$assetName" == *".tar.gz" ]]; then
   verbose "Unpacking .tar.gz asset"
   tar -xzf "$tmpDir/$assetName" -C "$tmpDir"
+  verbose "Removing packed asset"
+  rm "$tmpDir/$assetName"
 elif [[ "$assetName" == *".tar.bz2" ]]; then
   verbose "Unpacking .tar.bz2 asset"
   tar -xjf "$tmpDir/$assetName" -C "$tmpDir"
+  verbose "Removing packed asset"
+  rm "$tmpDir/$assetName"
+else
+  verbose "Asset is not a tar file. Skipping unpacking."
 fi
-
-# Removing packed asset
-verbose "Removing packed asset"
-rm "$tmpDir/$assetName"
 
 # Copy files to install location
 info "Installing '$repo'"
