@@ -11,6 +11,25 @@
     </header>
 
     <article>
+        <blockquote>
+            Instl is an installation script generator for GitHub projects. It does not need any setup, and can be used to install most GitHub projects on Linux, macOS and Windows.<br/>
+            You can easily add installation commands to your <code>README</code> - they just work!.
+        </blockquote>
+        <form>
+            <div class="grid">
+                <label for="owner">
+                    GitHub user
+                    <input type="text" id="owner" name="lastname" placeholder="GitHub user" required>
+                </label>
+                <label for="repo">
+                    Repository
+                    <input type="text" id="repo" name="firstname" placeholder="Repository" required>
+                </label>
+            </div>
+
+            <button type="submit" id="submit">Create Installer Scripts</button>
+        </form>
+
         <h2>Key Features</h2>
         <ul>
             <li>💻 Cross-Platform: Works on Windows, macOS and Linux out of the box</li>
@@ -61,4 +80,19 @@
         </p>
     </article>
 
+        <script lang="js">
+            const form = document.querySelector('form');
+            const submit = document.querySelector('#submit');
+
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                submit.disabled = true;
+                submit.innerText = 'Generating...';
+
+                const owner = document.querySelector('#owner').value;
+                const repo = document.querySelector('#repo').value;
+
+                document.location = `/${owner}/${repo}`;
+            });
+        </script>
 {{end}}

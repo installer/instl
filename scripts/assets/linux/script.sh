@@ -161,12 +161,13 @@ done
 verbose "Finding asset with highest score"
 maxScore=0
 maxKey=""
-for key in $(map_keys assets); do
-  score="$(map_get assets "$key")"
+for asset in $(map_keys assets); do
+  score="$(map_get assets "$asset")"
   if [ $score -gt $maxScore ]; then
     maxScore=$score
-    maxKey=$key
+    maxKey=$asset
   fi
+  verbose "Asset: $asset, score: $score"
 done
 
 assetName="$maxKey"

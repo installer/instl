@@ -5,7 +5,6 @@ import (
 	"time"
 
 	"github.com/gofiber/fiber/v2"
-	"github.com/pterm/pterm"
 	"go.etcd.io/bbolt"
 
 	"github.com/installer/instl/internal/pkg/config"
@@ -17,7 +16,10 @@ var db *bbolt.DB
 
 func init() {
 	dbTmp, err := bbolt.Open("./metrics.db", 0666, nil)
-	pterm.Fatal.PrintOnError(err)
+	if err != nil {
+		panic(err)
+	}
+
 	db = dbTmp
 }
 
