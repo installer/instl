@@ -72,6 +72,9 @@ func main() {
 	app.Get("/docs", handlers.RedirectToDocs)
 	app.Get("/documentation", handlers.RedirectToDocs)
 
+	// Sitemap
+	app.Get("/sitemap.xml", handlers.Sitemap)
+
 	// API
 	app.Get("/api/stats", handlers.AllStatsAPI)
 	app.Get("/api/stats/:user/:repo", handlers.RepoStatsAPI)
