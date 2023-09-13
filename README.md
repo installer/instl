@@ -7,7 +7,7 @@
 </a>
 
 <a style="text-decoration: none" href="https://instl.sh/stats">
-<img src="https://img.shields.io/endpoint?url=https://instl.sh/stats/total/badge/shields.io&style=for-the-badge" alt="Handeld Installations">
+<img src="https://img.shields.io/endpoint?url=https://instl.sh/api/v1/badge/shields.io/stats/total&style=for-the-badge" alt="Handled installations">
 </a>
 
 </p>
