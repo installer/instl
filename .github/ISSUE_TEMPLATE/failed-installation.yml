@@ -1,0 +1,31 @@
+name: ❌ Failed installation
+description: >-
+  Use this template if you tried to use instl to install a GitHub project, but
+  the script failed
+title: '[Failed installation]: github.com/USER/REPO - ERROR MESSAGE'
+labels:
+  - bug
+body:
+  - type: input
+    attributes:
+      label: GitHub project
+      description: Please link to the GitHub project that you tried to install
+      placeholder: https://github.com/username/reponame
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Verbose log
+      description: Please paste your verbose log output
+      placeholder: Verbose log
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: >-
+        Get verbose output:
+        [docs.instl.sh/usage/verbose-output](https://docs.instl.sh/usage/verbose-output) 
+  - type: textarea
+    attributes:
+      label: Additional info
+      description: 'If you want to give additional context, you can do so here:'
