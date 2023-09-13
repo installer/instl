@@ -1,0 +1,44 @@
+{{template "base" .}}
+
+{{define "title"}}instl | Privacy Policy{{end}}
+
+{{ define "content"}}
+    <header>
+        <hgroup>
+            <h1>Privacy Policy</h1>
+            <p>We take your privacy serious</p>
+        </hgroup>
+    </header>
+    <article>
+        <blockquote>We at instl take the privacy of our users very seriously. This Privacy Policy outlines the types of information we collect, how we use it, and the steps we take to safeguard your data.</blockquote>
+
+        <h2>Information We Collect</h2>
+
+        <ul>
+            <li><b>Anonymized Session IDs:</b> We collect anonymized session IDs for the purpose of page analytics. No cookies are set on your browser for tracking.</li>
+            <li><b>Cloudflare:</b> We use Cloudflare as a reverse-proxy service. This means Cloudflare has visibility into your IP address. For more information, please consult <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare's Privacy Policy</a>.</li>
+            <li><b>Anonymized Request Logs:</b> We maintain anonymized request logs to identify and fix bugs.</li>
+            <li><b>Installation Statistics:</b> We track installations via instl for public statistics available at <a href="/stats" target="_blank">/stats</a>.</li>
+            <li><b>GitHub Username and Repository:</b> When you use instl, your GitHub username and repository name will be publicly displayed in the stats. If you wish to remove this data, please contact us via GitHub.</li>
+        </ul>
+
+        <h2>Use of Collected Information</h2>
+
+        <p>We use the information collected for the following purposes:</p>
+
+        <ul>
+            <li>To improve the quality and functionality of instl.</li>
+            <li>To gain insights into how users are engaging with our service.</li>
+            <li>To identify and rectify any technical issues or bugs.</li>
+        </ul>
+
+        <h2>Third-Party Services</h2>
+
+        <p>We may load assets (like JavaScript files, CSS, images, etc.) from external servers. We do not control these external servers, and hence their respective privacy policies apply.</p>
+
+        <h2>Contact Us</h2>
+
+        <p>If you have any questions or concerns about this Privacy Policy, please contact us via GitHub.</p>
+
+    </article>
+{{end}}

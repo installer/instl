@@ -72,6 +72,11 @@ func main() {
 	app.Get("/docs", handlers.RedirectToDocs)
 	app.Get("/documentation", handlers.RedirectToDocs)
 
+	// Legal
+	app.Get("/privacy", handlers.PrivacyPolicy)
+	app.Get("/terms", handlers.TermsOfService)
+	app.Get("/tos", handlers.Redirect("/terms"))
+
 	// Sitemap
 	app.Get("/sitemap.xml", handlers.Sitemap)
 
