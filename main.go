@@ -84,13 +84,12 @@ func main() {
 	badgeAPIV1 := apiV1.Group("/badge")
 	shieldsIOAPIV1 := badgeAPIV1.Group("/shields.io")
 	shieldsIOAPIV1.Get("/stats/:user/:repo", handlers.RepoStatsShieldsIOBadge)
+	shieldsIOAPIV1.Get("/stats/total", handlers.AllStatsTotalBadge)
 
 	// Stats
 	// - Stats landing page
 	app.Get("/stats", handlers.AllStatsPage)
 	app.Get("/stats/:any", func(ctx *fiber.Ctx) error { return ctx.SendStatus(404) })
-	// - Total stats
-	app.Get("/stats/total/badge/shields.io", handlers.AllStatsTotalBadge)
 	// - Legacy redirect
 	app.Get("/:user/:repo", handlers.RepoStatsPage)
 	app.Get("/stats/:user/:repo", handlers.RedirectLegacyStats)
