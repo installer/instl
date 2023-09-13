@@ -12,6 +12,8 @@ func Sitemap(c *fiber.Ctx) error {
 
 	pages = append(pages, "https://instl.sh/")
 	pages = append(pages, "https://instl.sh/stats")
+	pages = append(pages, "https://instl.sh/privacy")
+	pages = append(pages, "https://instl.sh/terms")
 
 	var statsMap = map[string]struct{}{}
 	err := db.View(func(tx *bbolt.Tx) error {
