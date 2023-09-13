@@ -76,9 +76,10 @@ func main() {
 	app.Get("/sitemap.xml", handlers.Sitemap)
 
 	// API
-	app.Get("/api/stats", handlers.AllStatsAPI)
-	app.Get("/api/stats/:user/:repo", handlers.RepoStatsAPI)
-	app.Get("/api/stats/total", handlers.AllStatsTotalAPI)
+	apiV1 := app.Group("/api/v1")
+	apiV1.Get("/stats", handlers.AllStatsAPI)
+	apiV1.Get("/stats/:user/:repo", handlers.RepoStatsAPI)
+	apiV1.Get("/stats/total", handlers.AllStatsTotalAPI)
 
 	// Stats
 	// - Stats landing page
