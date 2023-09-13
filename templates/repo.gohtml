@@ -6,7 +6,7 @@
     <header>
         <hgroup>
             <h1>Installer for <a href="https://github.com/{{.Owner}}/{{.Repo}}">github.com/{{.Owner}}/{{.Repo}}</a></h1>
-            <p id="repo-desc"></p>
+            <p aria-busy="true" id="repo-desc"></p>
         </hgroup>
     </header>
     <article>
@@ -62,41 +62,13 @@
         </table>
 
         <hgroup>
-            <h2>Markdown</h2>
-            <p>Markdown presets for your <code>README</code>!</p>
+            <h2>Maintainer</h2>
+            <p>Maintaining {{.Owner}}/{{.Repo}}?</p>
         </hgroup>
-
-        <h3>Table</h3>
-        <pre><code>
-| Platform | Command |
-| -------- | ------- |
-| Windows  | <code>iwr instl.sh/{{.Owner}}/{{.Repo}}/windows | iex</code> |
-| macOS    | <code>curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/macos | bash</code> |
-| Linux    | <code>curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/linux | bash</code> |
-
-> [📊 Install stats](https://instl.sh/{{.Owner}}/{{.Repo}})
-</code></pre>
-
-        <h3>Headings</h3>
-        <pre><code>
-#### Windows
-```powershell
-iwr instl.sh/{{.Owner}}/{{.Repo}}/windows | iex
-```
-
-#### macOS
-```bash
-curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/macos | bash
-```
-
-#### Linux
-```bash
-curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/linux | bash
-```
-
-> [📊 Install stats](https://instl.sh/{{.Owner}}/{{.Repo}})
-</code></pre>
-
+        <p>
+            If you are a maintainer of <a href="https://github.com/{{.Owner}}/{{.Repo}}">github.com/{{.Owner}}/{{.Repo}}</a>,
+            you can check out the <a href="/{{.Owner}}/{{.Repo}}/maintainer">maintainer page of this repo</a> for
+            customized badges and Markdown snippets.
     </article>
 
     <script lang="js">
@@ -104,6 +76,7 @@ curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/linux | bash
         .then(description => {
           if (description) {
             document.getElementById('repo-desc').textContent = description;
+            document.getElementById('repo-desc').removeAttribute('aria-busy');
           }
         });
 

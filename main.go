@@ -87,12 +87,11 @@ func main() {
 	shieldsIOAPIV1.Get("/stats/total", handlers.AllStatsTotalBadge)
 
 	// Stats
-	// - Stats landing page
 	app.Get("/stats", handlers.AllStatsPage)
 	app.Get("/stats/:any", func(ctx *fiber.Ctx) error { return ctx.SendStatus(404) })
-	// - Legacy redirect
+	app.Get("/stats/:user/:repo", handlers.RedirectLegacyStats) // Legacy redirect
 	app.Get("/:user/:repo", handlers.RepoStatsPage)
-	app.Get("/stats/:user/:repo", handlers.RedirectLegacyStats)
+	app.Get("/:user/:repo/maintainer", handlers.RepoMaintainerPage)
 
 	// Installation script generator
 	app.Get("/:user/:repo/:os", handlers.Installation)

@@ -28,6 +28,22 @@ func RepoStatsPage(c *fiber.Ctx) error {
 	})
 }
 
+func RepoMaintainerPage(c *fiber.Ctx) error {
+	owner, repo := getOwnerAndRepo(c)
+	linux, windows, macos, err := getInstallationCountPerPlatform(owner, repo)
+	if err != nil {
+		return err
+	}
+	return c.Render("repo-maintainer.gohtml", map[string]any{
+		"Windows": windows,
+		"Linux":   linux,
+		"MacOS":   macos,
+		"Total":   linux + windows + macos,
+		"Owner":   owner,
+		"Repo":    repo,
+	})
+}
+
 type Stat struct {
 	Owner string
 	Repo  string

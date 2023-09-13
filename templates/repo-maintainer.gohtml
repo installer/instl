@@ -1,0 +1,121 @@
+{{template "base" .}}
+
+{{define "title"}}Maintainer view for {{.Owner}}/{{.Repo}}{{end}}
+
+{{ define "content"}}
+    <header>
+        <hgroup>
+            <h1>
+                Maintainer view for
+                <a href="https://github.com/{{.Owner}}/{{.Repo}}">github.com/{{.Owner}}/{{.Repo}}</a>
+            </h1>
+            <p><a href="/{{.Owner}}/{{.Repo}}">User view</a></p>
+        </hgroup>
+    </header>
+    <article>
+        <blockquote>
+            This is the maintainer view for
+            <a href="https://github.com/{{.Owner}}/{{.Repo}}">github.com/{{.Owner}}/{{.Repo}}</a>.
+            If you are not a maintainer of the repository, you might find the
+            <a href="/{{.Owner}}/{{.Repo}}">user view</a> more interesting.
+        </blockquote>
+
+        <h2>Badges</h2>
+        <label for="badge-style">Style</label>
+        <select id="badge-style">
+            <option value="flat">flat</option>
+            <option value="flat-square">flat-square</option>
+            <option value="for-the-badge" selected>for-the-badge</option>
+            <option value="social">social</option>
+        </select>
+
+        <hgroup>
+            <h3>Install with instl.sh</h3>
+            <p>
+                <a href="/{{.Owner}}/{{.Repo}}">
+                    <img class="badge" alt="install with instl.sh"
+                         src="https://img.shields.io/badge/install_with-instl.sh-blue?link=https://instl.sh/{{.Owner}}/{{.Repo}}&style=for-the-badge"/>
+                </a>
+            </p>
+        </hgroup>
+        <pre class="badge-source"><code>[![install with instl.sh](https://img.shields.io/badge/install_with-instl.sh-blue?link=https://instl.sh/{{.Owner}}/{{.Repo}}&style=for-the-badge)](https://instl.sh/{{.Owner}}/{{.Repo}})</code></pre>
+
+        <hgroup>
+            <h3>Installation count</h3>
+            <p>
+                <a href="/{{.Owner}}/{{.Repo}}">
+                    <img class="badge" alt="install count"
+                         src="https://img.shields.io/endpoint?url=https://instl.sh/api/v1/badge/shields.io/stats/{{.Owner}}/{{.Repo}}&style=for-the-badge"/>
+                </a>
+        </hgroup>
+        <pre class="badge-source"><code>[![install count](https://img.shields.io/endpoint?url=https://instl.sh/api/v1/badge/shields.io/stats/{{.Owner}}/{{.Repo}}&style=for-the-badge)](https://instl.sh/{{.Owner}}/{{.Repo}})</code></pre>
+
+        <h2>Installation Commands</h2>
+
+        <h3>Table</h3>
+        <pre><code>
+| Platform | Command |
+| -------- | ------- |
+| Windows  | <code>iwr instl.sh/{{.Owner}}/{{.Repo}}/windows | iex</code> |
+| macOS    | <code>curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/macos | bash</code> |
+| Linux    | <code>curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/linux | bash</code> |
+
+> [📊 Install stats](https://instl.sh/{{.Owner}}/{{.Repo}})
+</code></pre>
+
+        <h3>Headings</h3>
+        <pre><code>
+#### Windows
+```powershell
+iwr instl.sh/{{.Owner}}/{{.Repo}}/windows | iex
+```
+
+#### macOS
+```bash
+curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/macos | bash
+```
+
+#### Linux
+```bash
+curl -sSL instl.sh/{{.Owner}}/{{.Repo}}/linux | bash
+```
+
+> [📊 Install stats](https://instl.sh/{{.Owner}}/{{.Repo}})
+</code></pre>
+
+    </article>
+
+    <script lang="js">
+      async function fetchGitHubRepoDescription(username, repoName) {
+        const url = `https://api.github.com/repos/${username}/${repoName}`;
+
+        try {
+          const response = await fetch(url);
+          if (response.ok) {
+            const data = await response.json();
+            return data.description;
+          } else {
+            console.error(`Failed to fetch data: ${response.statusText}`);
+            return null;
+          }
+        } catch (error) {
+          console.error(`An error occurred: ${error}`);
+          return null;
+        }
+      }
+
+      document.getElementById('badge-style').addEventListener('change', (event) => {
+        const style = event.target.value;
+        const badges = document.getElementsByClassName('badge');
+        for (const badge of badges) {
+          badge.src = badge.src.replace(/style=[^&\)]*/, `style=${style}`);
+        }
+
+        const badgeSources = document.getElementsByClassName('badge-source');
+        for (const badgeSource of badgeSources) {
+          const code = badgeSource.querySelector('code');
+          code.textContent = code.textContent.replace(/style=[^&\)]*/, `style=${style}`);
+        }
+      });
+    </script>
+{{end}}
