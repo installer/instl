@@ -18,7 +18,7 @@
 #                                   files.                                     #
 #                                                                              #
 #            You can see the source code of this server on GitHub:             #
-#                  https://github.com/installer/instl                          #
+#                     https://github.com/installer/instl                       #
 #                                                                              #
 #             Instl and its members are not associated with the                #
 #                       project that will be installed!                        #
@@ -34,7 +34,7 @@
 
 # Install script for: https://github.com/{{ .Owner }}/{{ .Repo }}
 #
-# To use this installer script, run the following command:
+# To use this install script, run the following command:
 #
 # Linux:
 # curl -sSL instl.sh/{{ .Owner }}/{{ .Repo }}/linux | bash
