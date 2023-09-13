@@ -80,6 +80,10 @@ func main() {
 	apiV1.Get("/stats", handlers.AllStatsAPI)
 	apiV1.Get("/stats/:user/:repo", handlers.RepoStatsAPI)
 	apiV1.Get("/stats/total", handlers.AllStatsTotalAPI)
+	// - Badge
+	badgeAPIV1 := apiV1.Group("/badge")
+	shieldsIOAPIV1 := badgeAPIV1.Group("/shields.io")
+	shieldsIOAPIV1.Get("/stats/:user/:repo", handlers.RepoStatsShieldsIOBadge)
 
 	// Stats
 	// - Stats landing page
@@ -90,9 +94,6 @@ func main() {
 	// - Legacy redirect
 	app.Get("/:user/:repo", handlers.RepoStatsPage)
 	app.Get("/stats/:user/:repo", handlers.RedirectLegacyStats)
-	// - Badge
-	app.Get("/stats/:user/:repo/badge/shields.io", handlers.RepoStatsBadge)
-	app.Get("/:user/:repo/badge/shields.io", handlers.RepoStatsBadge)
 
 	// Installation script generator
 	app.Get("/:user/:repo/:os", handlers.Installation)

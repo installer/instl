@@ -6,7 +6,7 @@ import (
 	"strconv"
 )
 
-func RepoStatsBadge(c *fiber.Ctx) error {
+func RepoStatsShieldsIOBadge(c *fiber.Ctx) error {
 	owner, repo := getOwnerAndRepo(c)
 	linux, windows, macos, err := getInstallationCountPerPlatform(owner, repo)
 	if err != nil {
