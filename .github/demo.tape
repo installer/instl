@@ -13,7 +13,7 @@ Sleep 2s
 Show
 
 # Type a command in the terminal.
-Type 'curl -sSL instl.sh/installer/test-repo/linux | bash'
+Type 'curl -sSL instl.sh/installer/instl-demo/linux | bash'
 
 # Pause for dramatic effect...
 Sleep 3s
