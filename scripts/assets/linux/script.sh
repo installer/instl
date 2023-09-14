@@ -190,7 +190,7 @@ downloadAssetArgs+=(-L "$assetURL" -o "$tmpDir/$assetName")
 verbose "${downloadAssetArgs[@]}"
 curl "${downloadAssetArgs[@]}"
 
-# Unpack asset if it is a  tar, gz, tar.gz or tar.bz2 file
+# Unpack asset if it is compressed
 if [[ "$assetName" == *".tar" ]]; then
   verbose "Unpacking .tar asset to $tmpDir"
   tar -xf "$tmpDir/$assetName" -C "$tmpDir"
@@ -213,10 +213,15 @@ elif [[ "$assetName" == *".gz" ]]; then
 elif [[ "$assetName" == *".tar.bz2" ]]; then
   verbose "Unpacking .tar.bz2 asset to $tmpDir"
   tar -xjf "$tmpDir/$assetName" -C "$tmpDir"
+  verbose "Removing packed asset"
+  rm "$tmpDir/$assetName"
+elif [[ "$assetName" == *".zip" ]]; then
+  verbose "Unpacking .zip asset to $tmpDir/$repo"
+  unzip "$tmpDir/$assetName" -d "$tmpDir"
   verbose "Removing packed asset ($tmpDir/$assetName)"
   rm "$tmpDir/$assetName"
 else
-  verbose "Asset is not a tar file. Skipping unpacking."
+  verbose "Asset is not a tar or zip file. Skipping unpacking."
 fi
 
 # Copy files to install location
