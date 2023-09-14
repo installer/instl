@@ -187,24 +187,33 @@ info "Downloading asset..."
 # Download asset
 downloadAssetArgs=$curlOpts
 downloadAssetArgs+=(-L "$assetURL" -o "$tmpDir/$assetName")
-verbose ${downloadAssetArgs[@]}
-curl ${downloadAssetArgs[@]}
+verbose "${downloadAssetArgs[@]}"
+curl "${downloadAssetArgs[@]}"
 
-# Unpack asset if it is a  tar, tar.gz or tar.bz2 file
+# Unpack asset if it is a  tar, gz, tar.gz or tar.bz2 file
 if [[ "$assetName" == *".tar" ]]; then
-  verbose "Unpacking .tar asset"
+  verbose "Unpacking .tar asset to $tmpDir"
   tar -xf "$tmpDir/$assetName" -C "$tmpDir"
-  verbose "Removing packed asset"
+  verbose "Removing packed asset ($tmpDir/$assetName)"
   rm "$tmpDir/$assetName"
 elif [[ "$assetName" == *".tar.gz" ]]; then
-  verbose "Unpacking .tar.gz asset"
+  verbose "Unpacking .tar.gz asset to $tmpDir"
   tar -xzf "$tmpDir/$assetName" -C "$tmpDir"
-  verbose "Removing packed asset"
+  verbose "Removing packed asset ($tmpDir/$assetName)"
   rm "$tmpDir/$assetName"
+elif [[ "$assetName" == *".gz" ]]; then
+  verbose "Unpacking .gz asset to $tmpDir/$repo"
+  gunzip -c "$tmpDir/$assetName" > "$tmpDir/$repo"
+  verbose "Removing packed asset ($tmpDir/$assetName)"
+  rm "$tmpDir/$assetName"
+  verbose "Setting asset name to $repo, because it is a .gz file"
+  assetName="$repo"
+  verbose "Marking asset as executable"
+  chmod +x "$tmpDir/$repo"
 elif [[ "$assetName" == *".tar.bz2" ]]; then
-  verbose "Unpacking .tar.bz2 asset"
+  verbose "Unpacking .tar.bz2 asset to $tmpDir"
   tar -xjf "$tmpDir/$assetName" -C "$tmpDir"
-  verbose "Removing packed asset"
+  verbose "Removing packed asset ($tmpDir/$assetName)"
   rm "$tmpDir/$assetName"
 else
   verbose "Asset is not a tar file. Skipping unpacking."
@@ -213,6 +222,9 @@ fi
 # Copy files to install location
 info "Installing '$repo'"
 verbose "Copying files to install location"
+# verbose print tmpDir files
+verbose "Files in $tmpDir:"
+verbose "$(ls "$tmpDir")"
 cp -r "$tmpDir"/* "$installLocation"
 
 # Find binary in install location to symlink to it later
@@ -232,9 +244,15 @@ done
 binaryName="$(basename "$binary")"
 verbose "Binary name: $binaryName"
 
+# Check if binary is empty
+if [ -z "$binary" ]; then
+  error "Could not find binary in install location"
+  exit 1
+fi
+
 # Remove previous symlink if it exists
 verbose "Removing previous symlink"
-rm "$binaryLocation/$repo" > /dev/null 2>&1 || true
+rm "$binaryLocation/$repo" >/dev/null 2>&1 || true
 # Create symlink to binary
 verbose "Creating symlink '$binaryLocation/$binaryName' -> '$binary'"
 ln -s "$binary" "$binaryLocation/$binaryName"
@@ -250,9 +268,9 @@ if ! echo "$PATH" | grep -q "$binaryLocation"; then
       # Check if binaryLocation is already in the file
       if ! grep -q -s "export PATH=$binaryLocation:\$PATH" "$config"; then
         verbose "Appending $binaryLocation to $config"
-        echo "" >> "$config"
-        echo "# Instl.sh installer binary location" >> "$config"
-        echo "export PATH=$binaryLocation:\$PATH" >> "$config"
+        echo "" >>"$config"
+        echo "# Instl.sh installer binary location" >>"$config"
+        echo "export PATH=$binaryLocation:\$PATH" >>"$config"
       else
         verbose "$binaryLocation is already in $config"
       fi
