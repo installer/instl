@@ -1,0 +1,13 @@
+name: 🪲 Bug report
+description: Use this template, if you have found a bug
+title: '[Bug]: '
+labels:
+  - bug
+body:
+  - type: textarea
+    attributes:
+      label: Description
+      description: Please describe the bug
+      placeholder: Bug description
+    validations:
+      required: true

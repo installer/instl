@@ -16,3 +16,9 @@ func RedirectLegacyStats(c *fiber.Ctx) error {
 	newUrl := strings.ReplaceAll(c.OriginalURL(), "/stats", "")
 	return c.Redirect(newUrl)
 }
+
+func Redirect(url string) func(c *fiber.Ctx) error {
+	return func(c *fiber.Ctx) error {
+		return c.Redirect(url)
+	}
+}

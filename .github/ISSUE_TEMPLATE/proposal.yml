@@ -1,0 +1,13 @@
+name: ✨ Feature request
+description: Use this template, if you want to request a new feature
+title: '[Proposal]: '
+labels:
+  - proposal
+body:
+  - type: textarea
+    attributes:
+      label: Proposal
+      description: Please describe your proposal
+      placeholder: Proposal
+    validations:
+      required: true
