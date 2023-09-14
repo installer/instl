@@ -206,8 +206,13 @@ elif [[ "$assetName" == *".tar.bz2" ]]; then
   tar -xjf "$tmpDir/$assetName" -C "$tmpDir"
   verbose "Removing packed asset"
   rm "$tmpDir/$assetName"
+elif [[ "$assetName" == *".zip" ]]; then
+  verbose "Unpacking .zip asset"
+  unzip "$tmpDir/$assetName" -d "$tmpDir"
+  verbose "Removing packed asset"
+  rm "$tmpDir/$assetName"
 else
-  verbose "Asset is not a tar file. Skipping unpacking."
+  verbose "Asset is not a tar or zip file. Skipping unpacking."
 fi
 
 # Copy files to install location
