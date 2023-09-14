@@ -190,7 +190,7 @@ downloadAssetArgs+=(-L "$assetURL" -o "$tmpDir/$assetName")
 verbose ${downloadAssetArgs[@]}
 curl ${downloadAssetArgs[@]}
 
-# Unpack asset if it is a  tar, tar.gz or tar.bz2 file
+# Unpack asset if it is compressed
 if [[ "$assetName" == *".tar" ]]; then
   verbose "Unpacking .tar asset"
   tar -xf "$tmpDir/$assetName" -C "$tmpDir"
