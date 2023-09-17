@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -15,19 +18,21 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Set up Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v2
         with:
-          go-version: 'stable'
+          go-version: '1.17'
 
-      - name: Map OS to Makefile Target
-        run: echo "OSKEY=${{ env[matrix.os] }}" >> $GITHUB_ENV
-        env:
-          ubuntu-latest: linux
-          windows-latest: windows
-          macOS-latest: macos
+      - name: Test install on Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: make test-linux
 
-      - name: Test install
-        run: make test-${{ env.OSKEY }}
+      - name: Test install on Windows
+        if: matrix.os == 'windows-latest'
+        run: make test-windows
+
+      - name: Test install on macOS
+        if: matrix.os == 'macOS-latest'
+        run: make test-macos
