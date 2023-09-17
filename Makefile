@@ -6,8 +6,11 @@ test-linux:
 	go run . -test -verbose > ./run.sh
 	cat ./run.sh | bash
 
-build-image:
+build:
 	docker build -t marvinjwendt/instl .
 
-publish: build-image
+run: build
+	docker run -it --rm -p "80:80" marvinjwendt/instl
+
+publish: build
 	docker push marvinjwendt/instl

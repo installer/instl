@@ -28,3 +28,4 @@
 # Script generated for https://github.com/{{ .Owner }}/{{ .Repo }}
 # Script generated at {{ .CreatedAt }}
 # Script generated for version "{{ .Version }}"
+# Script generated with instl version "{{ .InstlVersion }}"

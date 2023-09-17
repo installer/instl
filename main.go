@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/installer/instl/internal/pkg/global"
 	"github.com/installer/instl/templates"
 	"os"
 	"runtime"
@@ -34,11 +35,12 @@ func main() {
 		}
 
 		script, err := scripts.ParseTemplateForPlatform(platform, config.Config{
-			Owner:     *owner,
-			Repo:      *repo,
-			Version:   "latest",
-			CreatedAt: time.Now(),
-			Verbose:   *verbose,
+			Owner:        *owner,
+			Repo:         *repo,
+			Version:      "latest",
+			CreatedAt:    time.Now(),
+			Verbose:      *verbose,
+			InstlVersion: global.Version,
 		})
 		if err != nil {
 			log.Fatal(err)
