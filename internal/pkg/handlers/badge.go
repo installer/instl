@@ -17,7 +17,7 @@ func RepoStatsShieldsIOBadge(c *fiber.Ctx) error {
 		"schemaVersion": 1,
 		"label":         "installations",
 		"message":       strconv.Itoa(linux + windows + macos),
-		"color":         "orange",
+		"color":         "blue",
 	})
 }
 
@@ -44,7 +44,7 @@ func AllStatsTotalBadge(c *fiber.Ctx) error {
 			"schemaVersion": 1,
 			"label":         "handled installations",
 			"message":       strconv.Itoa(total),
-			"color":         "orange",
+			"color":         "blue",
 		})
 	})
 }
