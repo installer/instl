@@ -12,3 +12,4 @@ echo ""
 fBlue '                                > https://instl.sh'
 echo ""
 echo ""
+verbose "Instl version: {{ .InstlVersion }}"

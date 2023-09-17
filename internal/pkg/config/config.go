@@ -3,11 +3,12 @@ package config
 import "time"
 
 type Config struct {
-	Owner     string
-	Repo      string
-	Version   string
-	CreatedAt time.Time
-	Verbose   bool
+	Owner        string
+	Repo         string
+	Version      string
+	InstlVersion string
+	CreatedAt    time.Time
+	Verbose      bool
 }
 
 // Combine merges two configs together.
@@ -29,6 +30,11 @@ func Combine(configs ...Config) Config {
 		}
 		if c.Verbose {
 			cfg.Verbose = true
+		}
+		if c.InstlVersion != "" {
+			cfg.InstlVersion = c.InstlVersion
+		} else {
+			cfg.InstlVersion = "dev"
 		}
 	}
 	return cfg

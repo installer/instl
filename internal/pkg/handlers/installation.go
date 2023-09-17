@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gofiber/fiber/v2/log"
 	"github.com/installer/instl/internal/metrics"
+	"github.com/installer/instl/internal/pkg/global"
 	"strconv"
 	"time"
 
@@ -36,10 +37,11 @@ func installationWithConfig(cfg config.Config) func(c *fiber.Ctx) error {
 
 		script, err := scripts.ParseTemplateForPlatform(platform, config.Combine(
 			config.Config{
-				Owner:     owner,
-				Repo:      repo,
-				CreatedAt: time.Now(),
-				Version:   "latest",
+				Owner:        owner,
+				Repo:         repo,
+				CreatedAt:    time.Now(),
+				Version:      "latest",
+				InstlVersion: global.Version,
 			},
 			cfg,
 		))
