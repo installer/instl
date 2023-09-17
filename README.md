@@ -13,12 +13,6 @@
 </p>
 
 <p align="center">
-Instl is an installation script generator for GitHub projects. <br/>
-It does not need any setup, and can be used to install most GitHub projects on Linux, macOS and Windows. <br/>
-You can easily add installation commands to your <code>README.md</code> - they just work!
-</p>
-
-<p align="center">
 <img width="900" src="https://raw.githubusercontent.com/installer/instl/main/demo.gif" alt="Instl Demo">
 </p>
 
@@ -31,6 +25,12 @@ You can easily add installation commands to your <code>README.md</code> - they j
 </p>
 
 ----
+
+<p align="center">
+Instl is an installation script generator for GitHub projects. <br/>
+It does not need any setup, and can be used to install most GitHub projects on Linux, macOS and Windows. <br/>
+You can easily add installation commands to your <code>README.md</code> - they just work!
+</p>
 
 ## Key Features
 
