@@ -2,7 +2,7 @@ test-windows:
 	@echo "Testing if binary exists in Windows..."
 	@go run . -test -verbose > ./run.ps1
 	@powershell -executionpolicy bypass -File ./run.ps1
-	@powershell -executionpolicy bypass -Command "if (Test-Path $$env:USERPROFILE\instl\instl-demo\instl-demo.exe) { echo 'Binary found in Windows'; exit 0 } else { echo 'Binary not found in Windows'; exit 1 }"
+	@powershell -executionpolicy bypass -Command "if (Test-Path $$env:HOME\instl\instl-demo\instl-demo.exe) { echo 'Binary found in Windows'; exit 0 } else { echo 'Binary not found in Windows'; exit 1 }"
 
 test-linux:
 	@echo "Testing if binary exists in Linux..."
