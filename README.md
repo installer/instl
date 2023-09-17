@@ -1,4 +1,4 @@
-<h1 align="center">INSTL <br> Automated GitHub Project Installer</sup></h1>
+<h1 align="center">INSTL <br> The Easiest Installer for GitHub Projects</sup></h1>
 
 <p align="center">
 
@@ -12,7 +12,11 @@
 
 </p>
 
-<p align="center">Instl is a install script generator that can handle most GitHub projects with a single command!</p>
+<p align="center">
+Instl is an installation script generator for GitHub projects. <br/>
+It does not need any setup, and can be used to install most GitHub projects on Linux, macOS and Windows. <br/>
+You can easily add installation commands to your <code>README.md</code> - they just work!
+</p>
 
 <p align="center">
 <img width="900" src="https://raw.githubusercontent.com/installer/instl/main/demo.gif" alt="Instl Demo">
@@ -28,54 +32,50 @@
 
 ----
 
-## Web Installer
+## Key Features
 
-> The web install command can be used by anyone and does not require anything to be installed.  
-> Running the web install command will download and install the given GitHub project.
+- 💻 Cross-Platform: Works on Windows, macOS and Linux out of the box
+- 🧸 One-Click Installs: Install any GitHub project with just a single command
+- 🪶 Web-Based: No need to install Instl - scripts are generated server-side
+- ⚙️ Intelligent Configuration: Instl adapts to the project's structure
+- 🕊️ On the fly: Installer scripts are created in real-time for each project
+- 📊 [Track Your Installs](https://instl.sh/stats): Installation metrics for your projects at your fingertips
 
-The web installer is a single command, which everyone can run to install a GitHub project.
-This is the basic syntax, which will return an install script from our API server:
+## Try it out:
 
-                         ┌ The GitHub username of the project
-                         |        ┌ The GitHub repository name of the project
-                         |        |       ┌ The platform, see "Valid Platforms"
-                         |        |       |
-	https://instl.sh/username/reponame/platform
+Install our demo repository, `instl-demo`, to see instl in action. If successful, you should be able to run `instl-demo` right from your terminal.
 
-### Valid Platforms
+| Platform | Command                                                    |
+| -------- |------------------------------------------------------------|
+| Windows  | <code>iwr instl.sh/installer/instl-demo/windows</code>     | iex |
+| macOS    | <code>curl -sSL instl.sh/installer/instl-demo/macos</code> | bash |
+| Linux    | <code>curl -sSL instl.sh/installer/instl-demo/linux</code> | bash |
 
-| Valid Platforms | Parameter |
-|-----------------|-----------|
-|     Windows     |  windows  |
-|      macOS      |  macos    |
-|      Linux      |  linux    |
 
-### Running the web installer command
+## Usage
 
-> Different operating systems need different commands to download and run the web installer script.
-> You can include those commands in your GitHub project, to provide a user-friendly installer for your CLI without any setup!
+The fastest way to create your own instl commands, is by visiting [instl.sh](https://instl.sh) and using the builder.
+
+Alternatively, you can create your own commands by using the following URL structure:
+
+> [!NOTE]
+> Replace `{username}` and `{reponame}` with your GitHub username and repository name.
+
 
 #### Windows
 
-This command will download and execute the web installer script for windows.
-You have to execute it in a powershell terminal.
-
 ```powershell
-iwr instl.sh/username/reponame/windows | iex
+iwr instl.sh/{username}/{reponame}/windows | iex
 ```
 
 #### macOS
 
-This command will download and execute the web installer script for macOS.
-
 ```bash
-curl -sSL instl.sh/username/reponame/macos | bash
+curl -sSL instl.sh/{username}/{reponame}/macos | bash
 ```
 
 #### Linux
 
-This command will download and execute the web installer script for linux.
-
 ```bash
-curl -sSL instl.sh/username/reponame/linux | bash
+curl -sSL instl.sh/{username}/{reponame}/linux | bash
 ```
