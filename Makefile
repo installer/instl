@@ -1,23 +1,17 @@
 test-windows:
-	@echo "Testing if binary exists in Windows..."
+	@echo "Testing windows installation..."
 	@go run . -test -verbose > ./run.ps1
 	@powershell -executionpolicy bypass -File ./run.ps1
-	@powershell echo "Looking for binary in $$HOME\instl\instl-demo\instl-demo.exe"
-	@powershell -executionpolicy bypass -Command "if (Test-Path $$env:HOME\instl\instl-demo\instl-demo.exe) { echo 'Binary found in Windows'; exit 0 } else { echo 'Binary not found in Windows'; exit 1 }"
 
 test-linux:
-	@echo "Testing if binary exists in Linux..."
+	@echo "Testing linux installation..."
 	@go run . -test -verbose > ./run.sh
 	@cat ./run.sh | bash
-	@echo "Looking for binary in $$HOME/.local/bin/instl-demo"
-	@(test -f $$HOME/.local/bin/instl-demo && echo "Binary found in Linux" && exit 0) || (echo "Binary not found in Linux" && exit 1)
 
 test-macos:
-	@echo "Testing if binary exists in macOS..."
+	@echo "Testing macOS installation..."
 	@go run . -test -verbose > ./run.sh
 	@cat ./run.sh | bash
-	@echo "Looking for binary in $$HOME/.local/bin/instl-demo"
-	@(test -f $$HOME/.local/bin/instl-demo && echo "Binary found in macOS" && exit 0) || (echo "Binary not found in macOS" && exit 1)
 
 build:
 	docker build -t marvinjwendt/instl .

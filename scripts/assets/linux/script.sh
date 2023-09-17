@@ -87,7 +87,6 @@ elif [[ $arch =~ ^arm ]]; then
   currentArchAliases=("${arm[@]}")
 else
   error "Unsupported architecture: $arch"
-  exit 1
 fi
 verbose "Current architecture aliases: ${currentArchAliases[*]}"
 
@@ -175,7 +174,6 @@ assetName="$maxKey"
 # Check if asset name is still empty
 if [ -z "$assetName" ]; then
   error "Could not find any assets that fit your system"
-  exit 1
 fi
 
 # Get asset URL from release assets
@@ -252,7 +250,6 @@ verbose "Binary name: $binaryName"
 # Check if binary is empty
 if [ -z "$binary" ]; then
   error "Could not find binary in install location"
-  exit 1
 fi
 
 # Remove previous symlink if it exists
@@ -290,6 +287,13 @@ fi
 info "Running clean up..."
 verbose "Removing temporary directory"
 rm -rf "$tmpDir"
+
+# Test if binary exists
+if [ ! -f "$binary" ]; then
+  error "Binary does not exist in installation location"
+else
+  verbose "Binary exists in installation location"
+fi
 
 echo
 success "You can now run '$binaryName' in your terminal!"

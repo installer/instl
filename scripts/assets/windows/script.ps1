@@ -152,7 +152,6 @@ foreach ($Key in $assetMap.Keys)
 if ($highestScore -eq 0)
 {
     error "Could not find any assets that fit your system"
-    exit 1
 }
 
 $assetURL = $highestScoreAsset
@@ -213,6 +212,16 @@ if (test-path $tmpDir)
 {
     verbose "Removing temporary directory"
     rm -r -fo $tmpDir
+}
+
+# Test if binary exists
+if (test-path $binaryFile)
+{
+    verbose "Binary file exists"
+}
+else
+{
+    error "Binary file does not exist"
 }
 
 Write-Host ""

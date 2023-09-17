@@ -311,6 +311,7 @@ function error
     fRedLight " X "
     fRed $Msg
     echo ""
+    exit 1
 }
 
 function success

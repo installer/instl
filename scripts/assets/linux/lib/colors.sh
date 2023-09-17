@@ -156,6 +156,7 @@ warning() {
 
 error() {
   fRedLight " X " && resetColor && fRed "$1" && echo
+  exit 1
 }
 
 success() {
