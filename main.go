@@ -24,7 +24,7 @@ func main() {
 	test := flag.Bool("test", false, "enable test mode; don't start server; print script to stdout")
 	verbose := flag.Bool("verbose", false, "verbose output for test mode")
 	owner := flag.String("owner", "installer", "repo owner for test mode")
-	repo := flag.String("repo", "test-repo", "repo name for test mode")
+	repo := flag.String("repo", "instl-demo", "repo name for test mode")
 	flag.Parse()
 
 	// Check if test flag is set
