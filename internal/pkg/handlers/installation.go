@@ -1,6 +1,9 @@
 package handlers
 
 import (
+	"fmt"
+	"github.com/gofiber/fiber/v2/log"
+	"github.com/installer/instl/internal/metrics"
 	"strconv"
 	"time"
 
@@ -48,7 +51,26 @@ func installationWithConfig(cfg config.Config) func(c *fiber.Ctx) error {
 
 		key := owner + "/" + repo + "/" + platform.String()
 		if owner != "status-health-check" {
-			// Dont return error, user is not affected by errors that happen in stats collection
+			// Send metrics
+			m := metrics.Metric{
+				UserAgent:    c.Get("User-Agent"),
+				ForwardedFor: c.Get("X-Forwarded-For"),
+				EventName:    "installation",
+				URL:          fmt.Sprintf("https://instl.sh/%s/%s/%s", owner, repo, platform),
+				Props: map[string]string{
+					"platform": platform.String(),
+					"repo":     owner + "/" + repo,
+				},
+			}
+
+			go func() {
+				err := metrics.Send(m)
+				if err != nil {
+					log.Errorw("failed to send metrics", "error", err)
+				}
+			}()
+
+			// Don't return error, user is not affected by errors that happen in stats collection
 			db.Update(func(tx *bbolt.Tx) error {
 				b, err := tx.CreateBucketIfNotExists([]byte("installations"))
 				if err != nil {

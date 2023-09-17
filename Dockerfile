@@ -5,7 +5,7 @@ RUN go mod download
 RUN CGO_ENABLED=0 go build -o ./main
 
 
-FROM scratch
+FROM alpine
 WORKDIR /app
 COPY --from=builder /build/main ./main
 ADD static /app/static
