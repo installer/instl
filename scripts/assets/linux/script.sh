@@ -19,6 +19,7 @@ repo="{{ .Repo }}"
 
 verbose "Creating temporary directory"
 tmpDir="$(mktemp -d)"
+verbose "Temporary directory: $tmpDir"
 
 binaryLocation="$HOME/.local/bin"
 verbose "Binary location: $binaryLocation"
@@ -215,11 +216,22 @@ elif [[ "$assetName" == *".tar.bz2" ]]; then
   rm "$tmpDir/$assetName"
 elif [[ "$assetName" == *".zip" ]]; then
   verbose "Unpacking .zip asset to $tmpDir/$repo"
-  unzip "$tmpDir/$assetName" -d "$tmpDir"
+  unzip "$tmpDir/$assetName" -d "$tmpDir" >/dev/null 2>&1
   verbose "Removing packed asset ($tmpDir/$assetName)"
   rm "$tmpDir/$assetName"
 else
   verbose "Asset is not a tar or zip file. Skipping unpacking."
+fi
+
+# If it was unpacked to a single directory, move the files to the root of the tmpDir
+# Also check that there are not other non directory files in the tmpDir
+verbose "Checking if asset was unpacked to a single directory"
+if [ "$(ls -d "$tmpDir"/* | wc -l)" -eq 1 ] && [ -d "$(ls -d "$tmpDir"/*)" ]; then
+  verbose "Asset was unpacked to a single directory"
+  verbose "Moving files to root of tmpDir"
+  mv "$tmpDir"/*/* "$tmpDir"
+else
+  verbose "Asset was not unpacked to a single directory"
 fi
 
 # Copy files to install location
