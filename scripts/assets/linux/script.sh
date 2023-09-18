@@ -37,23 +37,23 @@ mkdir -p "$installLocation"
 source ../shared/intro.ps1
 
 # Installation
-curlOpts=("-sS")
+curlOpts=("-sSL" "--retry" "5" "--retry-delay" "2" "--retry-max-time" "15")
 if [ -n "$GH_TOKEN" ]; then
   verbose "Using authentication with GH_TOKEN"
-  curlOpts+=("--header \"Authorization: Bearer $GH_TOKEN\"")
+  curlOpts+=("--header" "Authorization: Bearer $GH_TOKEN")
 elif [ -n "$GITHUB_TOKEN" ]; then
   verbose "Using authentication with GITHUB_TOKEN"
-  curlOpts+=("--header \"Authorization: Bearer $GITHUB_TOKEN\"")
+  curlOpts+=("--header" "Authorization: Bearer $GITHUB_TOKEN")
 else
   verbose "No authentication"
 fi
-
 # GitHub public API
 latestReleaseURL="https://api.github.com/repos/$owner/$repo/releases/latest"
 verbose "Getting latest release from GitHub"
-getReleaseArgs=$curlOpts
-getReleaseArgs+=("$latestReleaseURL")
-releaseJSON="$(curl ${getReleaseArgs[@]})"
+getReleaseArgs=("${curlOpts[@]}" "$latestReleaseURL")
+verbose "Release curl args: ${getReleaseArgs[*]}"
+releaseJSON="$(curl "${getReleaseArgs[@]}")"
+
 tagName="$(echo "$releaseJSON" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
 info "Found latest release of $repo (version: $tagName)"
 
