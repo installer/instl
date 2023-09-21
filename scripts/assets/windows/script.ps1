@@ -189,6 +189,29 @@ else
     error "Asset is not a zip, tar or tar.gz file"
 }
 
+# If it was unpacked to a single directory, move the files to the root of the tmpDir
+# Also check that there are not other non directory files in the tmpDir
+verbose "Checking if asset was unpacked to a single directory"
+$files = Get-ChildItem -Path $installLocation
+if ($files.Count -eq 1 -and $files[0].PSIsContainer)
+{
+    verbose "Moving files to root of tmpDir"
+    $subDir = $files[0]
+    $subDirPath = $subDir.FullName
+    $subDirFiles = Get-ChildItem -Path $subDirPath
+    foreach ($file in $subDirFiles)
+    {
+        $filePath = $file.FullName
+        $fileName = $file.Name
+        verbose "Moving $fileName to root of tmpDir"
+        Move-Item -Path $filePath -Destination $installLocation
+    }
+}
+else
+{
+    verbose "Asset was not unpacked to a single directory"
+}
+
 # Find binary file in install path
 $binaryFile = (Get-ChildItem -Path $installLocation -Filter "*.exe")[0]
 $binaryFile = $installLocation + "\" + $binaryFile.Name

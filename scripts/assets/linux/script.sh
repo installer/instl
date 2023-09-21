@@ -19,6 +19,7 @@ repo="{{ .Repo }}"
 
 verbose "Creating temporary directory"
 tmpDir="$(mktemp -d)"
+verbose "Temporary directory: $tmpDir"
 
 binaryLocation="$HOME/.local/bin"
 verbose "Binary location: $binaryLocation"
@@ -37,23 +38,23 @@ mkdir -p "$installLocation"
 source ../shared/intro.ps1
 
 # Installation
-curlOpts=("-sS")
+curlOpts=("-sSL" "--retry" "5" "--retry-delay" "2" "--retry-max-time" "15")
 if [ -n "$GH_TOKEN" ]; then
   verbose "Using authentication with GH_TOKEN"
-  curlOpts+=("--header \"Authorization: Bearer $GH_TOKEN\"")
+  curlOpts+=("--header" "Authorization: Bearer $GH_TOKEN")
 elif [ -n "$GITHUB_TOKEN" ]; then
   verbose "Using authentication with GITHUB_TOKEN"
-  curlOpts+=("--header \"Authorization: Bearer $GITHUB_TOKEN\"")
+  curlOpts+=("--header" "Authorization: Bearer $GITHUB_TOKEN")
 else
   verbose "No authentication"
 fi
-
 # GitHub public API
 latestReleaseURL="https://api.github.com/repos/$owner/$repo/releases/latest"
 verbose "Getting latest release from GitHub"
-getReleaseArgs=$curlOpts
-getReleaseArgs+=("$latestReleaseURL")
-releaseJSON="$(curl ${getReleaseArgs[@]})"
+getReleaseArgs=("${curlOpts[@]}" "$latestReleaseURL")
+verbose "Release curl args: ${getReleaseArgs[*]}"
+releaseJSON="$(curl "${getReleaseArgs[@]}")"
+
 tagName="$(echo "$releaseJSON" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')"
 info "Found latest release of $repo (version: $tagName)"
 
@@ -215,11 +216,22 @@ elif [[ "$assetName" == *".tar.bz2" ]]; then
   rm "$tmpDir/$assetName"
 elif [[ "$assetName" == *".zip" ]]; then
   verbose "Unpacking .zip asset to $tmpDir/$repo"
-  unzip "$tmpDir/$assetName" -d "$tmpDir"
+  unzip "$tmpDir/$assetName" -d "$tmpDir" >/dev/null 2>&1
   verbose "Removing packed asset ($tmpDir/$assetName)"
   rm "$tmpDir/$assetName"
 else
   verbose "Asset is not a tar or zip file. Skipping unpacking."
+fi
+
+# If it was unpacked to a single directory, move the files to the root of the tmpDir
+# Also check that there are not other non directory files in the tmpDir
+verbose "Checking if asset was unpacked to a single directory"
+if [ "$(ls -d "$tmpDir"/* | wc -l)" -eq 1 ] && [ -d "$(ls -d "$tmpDir"/*)" ]; then
+  verbose "Asset was unpacked to a single directory"
+  verbose "Moving files to root of tmpDir"
+  mv "$tmpDir"/*/* "$tmpDir"
+else
+  verbose "Asset was not unpacked to a single directory"
 fi
 
 # Copy files to install location
