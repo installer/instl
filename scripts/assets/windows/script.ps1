@@ -170,19 +170,19 @@ if ( $assetName.EndsWith(".zip"))
 {
     verbose "Extracting asset..."
     Expand-Archive -Path $assetPath -Destination $installLocation\
-    verbose "Asset extracted to $extractDir"
+    verbose "Asset extracted to $installLocation"
 }
 elseif ( $assetName.EndsWith(".tar.gz"))
 {
     verbose "Extracting asset..."
     tar -xzf $assetPath -C $installLocation
-    verbose "Asset extracted to $extractDir"
+    verbose "Asset extracted to $installLocation"
 }
 elseif ( $assetName.EndsWith(".tar"))
 {
     verbose "Extracting asset..."
     tar -xf $assetPath -C $installLocation
-    verbose "Asset extracted to $extractDir"
+    verbose "Asset extracted to $installLocation"
 }
 else
 {
@@ -191,7 +191,7 @@ else
 
 # Find binary file in install path
 $binaryFile = (Get-ChildItem -Path $installLocation -Filter "*.exe")[0]
-$binaryFile = $installLocation + "\" + $binaryFile
+$binaryFile = $installLocation + "\" + $binaryFile.Name
 $binaryName = $binaryFile.Split('\')[-1]
 $command = $binaryName.Split('.')[0]
 verbose "Binary file: $binaryFile"
