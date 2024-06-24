@@ -47,9 +47,9 @@ Install our demo repository, `instl-demo`, to see instl in action. If successful
 
 | Platform | Command                                                    |
 | -------- |------------------------------------------------------------|
-| Windows  | <code>iwr instl.sh/installer/instl-demo/windows</code>     | iex |
-| macOS    | <code>curl -sSL instl.sh/installer/instl-demo/macos</code> | bash |
-| Linux    | <code>curl -sSL instl.sh/installer/instl-demo/linux</code> | bash |
+| Windows  | <code>iwr instl.sh/installer/instl-demo/windows \| iex</code> |
+| macOS    | <code>curl -sSL instl.sh/installer/instl-demo/macos \| bash</code> |
+| Linux    | <code>curl -sSL instl.sh/installer/instl-demo/linux \| bash</code> |
 
 
 ## Usage
