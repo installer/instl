@@ -9,7 +9,7 @@ test-windows:
 	@echo
 	@echo "## Testing binary..."
 	@echo
-	@start "$env:USERPROFILE\instl\instl-demo\instl-demo.exe""
+	@start "$env:USERPROFILE\instl\instl-demo\instl-demo.exe"
 
 test:
 	@echo "# Testing linux installation..."
