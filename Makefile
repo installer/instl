@@ -1,17 +1,29 @@
 test-windows:
-	@echo "Testing windows installation..."
+	@echo "# Testing windows installation..."
+	@echo "## Deleting old binary..."
+	@rm -f "%USERPROFILE%\instl\instl-demo"
+	@echo "## Running instl..."
 	@go run . -test -verbose > ./run.ps1
 	@powershell -executionpolicy bypass -File ./run.ps1
+	@echo
+	@echo
+	@echo "## Testing binary..."
+	@echo
+	@%USERPROFILE%\instl\instl-demo\instl-demo.exe
 
-test-linux:
-	@echo "Testing linux installation..."
+test:
+	@echo "# Testing linux installation..."
+	@echo "## Deleting old binary..."
+	@rm -f "$HOME/.local/bin/instl-demo"
+	@rm -rf "$HOME/.local/bin/.instl/instl-demo/instl-demo"
+	@echo "## Running instl..."
 	@go run . -test -verbose > ./run.sh
 	@cat ./run.sh | bash
-
-test-macos:
-	@echo "Testing macOS installation..."
-	@go run . -test -verbose > ./run.sh
-	@cat ./run.sh | bash
+	@echo
+	@echo
+	@echo "## Testing binary..."
+	@echo
+	@instl-demo
 
 build:
 	docker build -t marvinjwendt/instl .
