@@ -1,7 +1,7 @@
 test-windows:
 	@echo "# Testing windows installation..."
 	@echo "## Deleting old binary..."
-	@rm -f "%USERPROFILE%\instl\instl-demo"
+	@rm -f "$env:USERPROFILE\instl\instl-demo"
 	@echo "## Running instl..."
 	@go run . -test -verbose > ./run.ps1
 	@powershell -executionpolicy bypass -File ./run.ps1
@@ -9,7 +9,7 @@ test-windows:
 	@echo
 	@echo "## Testing binary..."
 	@echo
-	@%USERPROFILE%\instl\instl-demo\instl-demo.exe
+	@start "$env:USERPROFILE\instl\instl-demo\instl-demo.exe""
 
 test:
 	@echo "# Testing linux installation..."
