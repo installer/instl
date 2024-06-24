@@ -5,16 +5,16 @@ on:
       - main
   workflow_dispatch:
   schedule:
-    - cron: '0 0 * * *'
+    - cron: "0 0 * * *"
 
 jobs:
   vhs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: charmbracelet/vhs-action@v1
+      - uses: charmbracelet/vhs-action@v2
         with:
-          path: '.github/demo.tape'
+          path: ".github/demo.tape"
       - uses: stefanzweifel/git-auto-commit-action@v4
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -24,4 +24,4 @@ jobs:
           commit_user_name: GitHub Actions
           commit_user_email: actions@github.com
           commit_author: GitHub Actions <actions@github.com>
-          file_pattern: '*.gif'
+          file_pattern: "*.gif"
