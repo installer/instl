@@ -7,9 +7,9 @@ source ./lib/map.sh
 # Setup variables
 verbose="{{ .Verbose }}"
 if [ "$verbose" = "true" ]; then
-  verbose=true
+	verbose=true
 else
-  verbose=false
+	verbose=false
 fi
 
 # Pass variables from the go server into the script
@@ -29,8 +29,8 @@ installLocation="$HOME/.local/bin/.instl/$repo"
 verbose "Install location: $installLocation"
 # Remove installLocation directory if it exists
 if [ -d "$installLocation" ]; then
-  verbose "Removing existing install location"
-  rm -rf "$installLocation"
+	verbose "Removing existing install location"
+	rm -rf "$installLocation"
 fi
 mkdir -p "$installLocation"
 
@@ -40,14 +40,15 @@ source ../shared/intro.ps1
 # Installation
 curlOpts=("-sSL" "--retry" "5" "--retry-delay" "2" "--retry-max-time" "15")
 if [ -n "$GH_TOKEN" ]; then
-  verbose "Using authentication with GH_TOKEN"
-  curlOpts+=("--header" "Authorization: Bearer $GH_TOKEN")
+	verbose "Using authentication with GH_TOKEN"
+	curlOpts+=("--header" "Authorization: Bearer $GH_TOKEN")
 elif [ -n "$GITHUB_TOKEN" ]; then
-  verbose "Using authentication with GITHUB_TOKEN"
-  curlOpts+=("--header" "Authorization: Bearer $GITHUB_TOKEN")
+	verbose "Using authentication with GITHUB_TOKEN"
+	curlOpts+=("--header" "Authorization: Bearer $GITHUB_TOKEN")
 else
-  verbose "No authentication"
+	verbose "No authentication"
 fi
+
 # GitHub public API
 latestReleaseURL="https://api.github.com/repos/$owner/$repo/releases/latest"
 verbose "Getting latest release from GitHub"
@@ -79,15 +80,15 @@ arm=("arm" "armv7" "armv6" "armv8" "armv8l" "armv7l" "armv6l" "armv8l" "armv7l" 
 
 currentArchAliases=()
 # Set the right aliases for current host system
-if [ $arch == "x86_64" ]; then
-  currentArchAliases=("${amd64[@]}")
-elif [ $arch == "i386" ] || [ $arch == "i686" ]; then
-  currentArchAliases=("${amd32[@]}")
+if [ "$arch" == "x86_64" ]; then
+	currentArchAliases=("${amd64[@]}")
+elif [ "$arch" == "i386" ] || [ "$arch" == "i686" ]; then
+	currentArchAliases=("${amd32[@]}")
 # Else if starts with "arm"
-elif [[ $arch =~ ^arm ]]; then
-  currentArchAliases=("${arm[@]}")
+elif [[ "$arch" =~ ^arm ]]; then
+	currentArchAliases=("${arm[@]}")
 else
-  error "Unsupported architecture: $arch"
+	error "Unsupported architecture: $arch"
 fi
 verbose "Current architecture aliases: ${currentArchAliases[*]}"
 
@@ -104,57 +105,57 @@ darwin=("darwin" "macos" "osx")
 currentOsAliases=()
 # If current os is linux, add linux aliases to the curentOsAliases array
 if [ "${os}" == "linux" ]; then
-  currentOsAliases+=(${linux[@]})
+	currentOsAliases+=("${linux[@]}")
 elif [ "${os}" == "darwin" ]; then
-  currentOsAliases+=(${darwin[@]})
+	currentOsAliases+=("${darwin[@]}")
 fi
 verbose "Current operating system aliases: ${currentOsAliases[*]}"
 
 # Create map of assets and a score
 for asset in $assets; do
-  score=0
+	score=0
 
-  # Get file name from asset path
-  fileName="$(echo "$asset" | awk -F'/' '{ print $NF; }')"
-  # Set filename to lowercase
-  fileName="$(echo "$fileName" | tr '[:upper:]' '[:lower:]')"
+	# Get file name from asset path
+	fileName="$(echo "$asset" | awk -F'/' '{ print $NF; }')"
+	# Set filename to lowercase
+	fileName="$(echo "$fileName" | tr '[:upper:]' '[:lower:]')"
 
-  # Set score to one, if the file name contains the current os
-  for osAlias in "${currentOsAliases[@]}"; do
-    if [[ "${fileName}" == *"$osAlias"* ]]; then
-      score=10
-      break
-    fi
-  done
+	# Set score to one, if the file name contains the current os
+	for osAlias in "${currentOsAliases[@]}"; do
+		if [[ "${fileName}" == *"$osAlias"* ]]; then
+			score=10
+			break
+		fi
+	done
 
-  # Add two to the score for every alias that matches the current architecture
-  for archAlias in "${currentArchAliases[@]}"; do
-    if [[ "${fileName}" == *"$archAlias"* ]]; then
-      verbose "Adding one to score for asset $fileName because it matches architecture $archAlias"
-      score=$((score + 2))
-    fi
-  done
+	# Add two to the score for every alias that matches the current architecture
+	for archAlias in "${currentArchAliases[@]}"; do
+		if [[ "${fileName}" == *"$archAlias"* ]]; then
+			verbose "Adding one to score for asset $fileName because it matches architecture $archAlias"
+			score=$((score + 2))
+		fi
+	done
 
-  # Add one to the score if the file name contains .tar or .tar.gz or .tar.bz2
-  if [[ "$fileName" == *".tar" ]] || [[ "$fileName" == *".tar.gz" ]] || [[ "$fileName" == *".tar.bz2" ]]; then
-    verbose "Adding one to score for asset $fileName because it is a .tar or .tar.gz or .tar.bz2 file"
-    score=$((score + 1))
-  fi
+	# Add one to the score if the file name contains .tar or .tar.gz or .tar.bz2
+	if [[ "$fileName" == *".tar" ]] || [[ "$fileName" == *".tar.gz" ]] || [[ "$fileName" == *".tar.bz2" ]]; then
+		verbose "Adding one to score for asset $fileName because it is a .tar or .tar.gz or .tar.bz2 file"
+		score=$((score + 1))
+	fi
 
-  # Add two to the score if the file name contains the repo name
-  if [[ "$fileName" == *"$repo"* ]]; then
-    verbose "Adding two to score for asset $fileName because it contains the repo name"
-    score=$((score + 2))
-  fi
+	# Add two to the score if the file name contains the repo name
+	if [[ "$fileName" == *"$repo"* ]]; then
+		verbose "Adding two to score for asset $fileName because it contains the repo name"
+		score=$((score + 2))
+	fi
 
-  # Add one to the score if the file name is exactly the repo name
-  if [[ "$fileName" == "$repo" ]]; then
-    verbose "Adding one to score for asset $fileName because it is exactly the repo name"
-    score=$((score + 1))
-  fi
+	# Add one to the score if the file name is exactly the repo name
+	if [[ "$fileName" == "$repo" ]]; then
+		verbose "Adding one to score for asset $fileName because it is exactly the repo name"
+		score=$((score + 1))
+	fi
 
-  # Initialize asset with score
-  map_put assets "$fileName" "$score"
+	# Initialize asset with score
+	map_put assets "$fileName" "$score"
 done
 
 # Get map entry with highest score
@@ -162,19 +163,19 @@ verbose "Finding asset with highest score"
 maxScore=0
 maxKey=""
 for asset in $(map_keys assets); do
-  score="$(map_get assets "$asset")"
-  if [ $score -gt $maxScore ]; then
-    maxScore=$score
-    maxKey=$asset
-  fi
-  verbose "Asset: $asset, score: $score"
+	score="$(map_get assets "$asset")"
+	if [ $score -gt $maxScore ]; then
+		maxScore=$score
+		maxKey=$asset
+	fi
+	verbose "Asset: $asset, score: $score"
 done
 
 assetName="$maxKey"
 
 # Check if asset name is still empty
 if [ -z "$assetName" ]; then
-  error "Could not find any assets that fit your system"
+	error "Could not find any assets that fit your system"
 fi
 
 # Get asset URL from release assets
@@ -191,47 +192,47 @@ curl "${downloadAssetArgs[@]}"
 
 # Unpack asset if it is compressed
 if [[ "$assetName" == *".tar" ]]; then
-  verbose "Unpacking .tar asset to $tmpDir"
-  tar -xf "$tmpDir/$assetName" -C "$tmpDir"
-  verbose "Removing packed asset ($tmpDir/$assetName)"
-  rm "$tmpDir/$assetName"
+	verbose "Unpacking .tar asset to $tmpDir"
+	tar -xf "$tmpDir/$assetName" -C "$tmpDir"
+	verbose "Removing packed asset ($tmpDir/$assetName)"
+	rm "$tmpDir/$assetName"
 elif [[ "$assetName" == *".tar.gz" ]]; then
-  verbose "Unpacking .tar.gz asset to $tmpDir"
-  tar -xzf "$tmpDir/$assetName" -C "$tmpDir"
-  verbose "Removing packed asset ($tmpDir/$assetName)"
-  rm "$tmpDir/$assetName"
+	verbose "Unpacking .tar.gz asset to $tmpDir"
+	tar -xzf "$tmpDir/$assetName" -C "$tmpDir"
+	verbose "Removing packed asset ($tmpDir/$assetName)"
+	rm "$tmpDir/$assetName"
 elif [[ "$assetName" == *".gz" ]]; then
-  verbose "Unpacking .gz asset to $tmpDir/$repo"
-  gunzip -c "$tmpDir/$assetName" > "$tmpDir/$repo"
-  verbose "Removing packed asset ($tmpDir/$assetName)"
-  rm "$tmpDir/$assetName"
-  verbose "Setting asset name to $repo, because it is a .gz file"
-  assetName="$repo"
-  verbose "Marking asset as executable"
-  chmod +x "$tmpDir/$repo"
+	verbose "Unpacking .gz asset to $tmpDir/$repo"
+	gunzip -c "$tmpDir/$assetName" >"$tmpDir/$repo"
+	verbose "Removing packed asset ($tmpDir/$assetName)"
+	rm "$tmpDir/$assetName"
+	verbose "Setting asset name to $repo, because it is a .gz file"
+	assetName="$repo"
+	verbose "Marking asset as executable"
+	chmod +x "$tmpDir/$repo"
 elif [[ "$assetName" == *".tar.bz2" ]]; then
-  verbose "Unpacking .tar.bz2 asset to $tmpDir"
-  tar -xjf "$tmpDir/$assetName" -C "$tmpDir"
-  verbose "Removing packed asset"
-  rm "$tmpDir/$assetName"
+	verbose "Unpacking .tar.bz2 asset to $tmpDir"
+	tar -xjf "$tmpDir/$assetName" -C "$tmpDir"
+	verbose "Removing packed asset"
+	rm "$tmpDir/$assetName"
 elif [[ "$assetName" == *".zip" ]]; then
-  verbose "Unpacking .zip asset to $tmpDir/$repo"
-  unzip "$tmpDir/$assetName" -d "$tmpDir" >/dev/null 2>&1
-  verbose "Removing packed asset ($tmpDir/$assetName)"
-  rm "$tmpDir/$assetName"
+	verbose "Unpacking .zip asset to $tmpDir/$repo"
+	unzip "$tmpDir/$assetName" -d "$tmpDir" >/dev/null 2>&1
+	verbose "Removing packed asset ($tmpDir/$assetName)"
+	rm "$tmpDir/$assetName"
 else
-  verbose "Asset is not a tar or zip file. Skipping unpacking."
+	verbose "Asset is not a tar or zip file. Skipping unpacking."
 fi
 
 # If it was unpacked to a single directory, move the files to the root of the tmpDir
 # Also check that there are not other non directory files in the tmpDir
 verbose "Checking if asset was unpacked to a single directory"
 if [ "$(ls -d "$tmpDir"/* | wc -l)" -eq 1 ] && [ -d "$(ls -d "$tmpDir"/*)" ]; then
-  verbose "Asset was unpacked to a single directory"
-  verbose "Moving files to root of tmpDir"
-  mv "$tmpDir"/*/* "$tmpDir"
+	verbose "Asset was unpacked to a single directory"
+	verbose "Moving files to root of tmpDir"
+	mv "$tmpDir"/*/* "$tmpDir"
 else
-  verbose "Asset was not unpacked to a single directory"
+	verbose "Asset was not unpacked to a single directory"
 fi
 
 # Copy files to install location
@@ -246,13 +247,13 @@ cp -r "$tmpDir"/* "$installLocation"
 verbose "Finding binary in install location"
 binary=""
 for file in "$installLocation"/*; do
-  # Check if the file is a binary file
-  verbose "Checking if $file is a binary file"
-  if [ -f "$file" ] && [ -x "$file" ]; then
-    binary="$file"
-    verbose "Found binary: $binary"
-    break
-  fi
+	# Check if the file is a binary file
+	verbose "Checking if $file is a binary file"
+	if [ -f "$file" ] && [ -x "$file" ]; then
+		binary="$file"
+		verbose "Found binary: $binary"
+		break
+	fi
 done
 
 # Get name of binary
@@ -261,7 +262,7 @@ verbose "Binary name: $binaryName"
 
 # Check if binary is empty
 if [ -z "$binary" ]; then
-  error "Could not find binary in install location"
+	error "Could not find binary in install location"
 fi
 
 # Remove previous symlink if it exists
@@ -273,38 +274,38 @@ ln -s "$binary" "$binaryLocation/$binaryName"
 
 # Add binaryLocation to PATH, if it is not already in PATH
 if ! echo "$PATH" | grep -q "$binaryLocation"; then
-  verbose "Adding $binaryLocation to PATH"
-  # Array of common shell configuration files
-  config_files=("$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.zshrc" "$HOME/.profile")
-  for config in "${config_files[@]}"; do
-    # Check if the file exists
-    if [ -f "$config" ]; then
-      # Check if binaryLocation is already in the file
-      if ! grep -q -s "export PATH=$binaryLocation:\$PATH" "$config"; then
-        verbose "Appending $binaryLocation to $config"
-        echo "" >>"$config"
-        echo "# Instl.sh installer binary location" >>"$config"
-        echo "export PATH=$binaryLocation:\$PATH" >>"$config"
-      else
-        verbose "$binaryLocation is already in $config"
-      fi
-    else
-      verbose "$config does not exist. Skipping append."
-    fi
-  done
+	verbose "Adding $binaryLocation to PATH"
+	# Array of common shell configuration files
+	config_files=("$HOME/.bashrc" "$HOME/.bash_profile" "$HOME/.zshrc" "$HOME/.profile")
+	for config in "${config_files[@]}"; do
+		# Check if the file exists
+		if [ -f "$config" ]; then
+			# Check if binaryLocation is already in the file
+			if ! grep -q -s "export PATH=$binaryLocation:\$PATH" "$config"; then
+				verbose "Appending $binaryLocation to $config"
+				echo "" >>"$config"
+				echo "# Instl.sh installer binary location" >>"$config"
+				echo "export PATH=$binaryLocation:\$PATH" >>"$config"
+			else
+				verbose "$binaryLocation is already in $config"
+			fi
+		else
+			verbose "$config does not exist. Skipping append."
+		fi
+	done
 else
-  verbose "$binaryLocation is already in PATH"
+	verbose "$binaryLocation is already in PATH"
 fi
 
-info "Running clean up..."
+info "Running clean up..."https://github.com/installer/instl
 verbose "Removing temporary directory"
 rm -rf "$tmpDir"
 
 # Test if binary exists
 if [ ! -f "$binary" ]; then
-  error "Binary does not exist in installation location"
+	error "Binary does not exist in installation location"
 else
-  verbose "Binary exists in installation location"
+	verbose "Binary exists in installation location"
 fi
 
 echo
